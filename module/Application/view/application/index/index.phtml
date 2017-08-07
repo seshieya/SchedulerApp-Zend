@@ -1,0 +1,244 @@
+<h1>Schedule Maker</h1>
+<form action="/draft" method="post" id="sc-form">
+    <div class="col-md-4">
+        <label for="sc-job-number">Job Number (enter without dashes):</label>
+        <input  type="text"
+                name="sc-job-number"
+                id="sc-job-number"
+                placeholder="Job Number"
+                <!--value="--><?php
+/*                if(isset($this->job['sc-job-number'])) {
+                    echo $this->job['sc-job-number'];
+                }*/
+                ?>"
+        />
+    </div>
+    <div class="col-md-4">
+        <label for="sc-job-address">Job Address:</label>
+        <input  type="text"
+                name="sc-job-address"
+                id="sc-job-address"
+                placeholder="Job Address"
+                <!--value="--><?php
+/*                if(isset($this->job['sc-job-address'])) {
+                echo $this->job['sc-job-address'];
+                }*/
+                ?>"
+        />
+    </div>
+    <div class="col-md-4">
+        <label for="sc-coordinator">Coordinator:</label>
+        <input  type="text"
+                name="sc-coordinator"
+                id="sc-coordinator"
+                placeholder=""
+                <!--value="--><?php
+/*                if(isset($this->job['sc-coordinator'])) {
+                    echo $this->job['sc-coordinator'];
+                }*/
+                ?>"
+        />
+    </div>
+    <div class="col-md-4">
+        <label for="sc-coord-phone">Coordinator Phone:</label>
+        <input  type="text"
+                name="sc-coord-phone"
+                id="sc-coord-phone"
+                placeholder=""
+                <!--value="--><?php
+/*                if(isset($this->job['sc-coord-phone'])) {
+                    echo $this->job['sc-coord-phone'];
+                }*/
+                ?>"
+        />
+
+    </div>
+    <div class="col-md-4">
+        <label for="sc-coord-email">Coordinator Email:</label>
+        <input  type="text"
+                name="sc-coord-email"
+                id="sc-coord-email"
+                placeholder=""
+                <!--value="--><?php
+/*                if(isset($this->job['sc-coord-email'])) {
+                    echo $this->job['sc-coord-email'];
+                }*/
+                ?>"
+        />
+
+    </div>
+    <div class="col-md-4">
+        <label for="sc-job-access" class="align-top">Job Access:</label>
+        <textarea name="sc-job-access"
+                  id="sc-job-access"
+                  placeholder=""
+        ></textarea>
+    </div>
+
+
+    <hr />
+
+    <div class="col-md-12">
+        <label for="sc-startdate">Schedule Start Date:</label>
+        <input  type="text"
+                name="sc-startdate"
+                id="sc-startdate"
+                placeholder=""
+                value="<?php
+                if(isset($this->job['sc-startdate'])) {
+                    echo $this->job['sc-startdate'];
+                }
+                ?>"
+        />
+    </div>
+
+    <hr />
+
+
+    <div id="sc-rows-container">
+        <?php
+/*        if (isset($this->rowOther) && isset($this->rowDayInDayOut)) {
+            $rowNum = 1;
+            while (true) {
+                if (isset($this->rowOther['sc-row' . $rowNum . '-type'])) {
+
+                    echo '<div class="sc-row-entry">
+               <div class="col-md-12">
+                <label for="sc-row' . $rowNum . '-unitnum">Unit Number or Area: <br />
+                <span class="sc-unit-label">(Strata/Commercial Buildings Only)</span></label>
+                <input  type="text"
+                        name="sc-row' . $rowNum . '-unitnum"
+                        id="sc-row' . $rowNum . '-unitnum"
+                        class="sc-rows-unitnum"
+                        placeholder=""       
+                 />
+              </div>
+              <div class="col-md-4">
+                <label for="sc-row' . $rowNum . '-type">Type of Work:</label>
+                <input  type="text"
+                        name="sc-row' . $rowNum . '-type"
+                        id="sc-row' . $rowNum . '-type"
+                        class="sc-rows-type"
+                        placeholder="" 
+                        value="' . $this->rowOther['sc-row' . $rowNum . '-type'] . '"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="sc-row' . $rowNum . '-trade">Trade Name:</label>
+                <input  type="text"
+                        name="sc-row' . $rowNum . '-trade"
+                        id="sc-row' . $rowNum . '-trade"
+                        class="sc-rows-trade"
+                        placeholder=""
+                        value="' . $this->rowOther['sc-row' . $rowNum . '-trade'] . '"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="sc-row' . $rowNum . '-trade-email">Trade Email:</label>
+                <input  type="text"
+                        name="sc-row' . $rowNum . '-trade-email"
+                        id="sc-row' . $rowNum . '-trade-email"
+                        class="sc-rows-trade-email"
+                        placeholder=""
+                        value="' . $this->rowOther['sc-row' . $rowNum . '-trade-email'] . '"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="sc-row' . $rowNum . '-days">Number of Days Needed:</label>
+                <input  type="text"
+                        name="sc-row' . $rowNum . '-days"
+                        id="sc-row' . $rowNum . '-days"
+                        class="sc-rows-days"
+                        placeholder=""
+                        
+                />
+              </div>\
+              <div class="col-md-8">
+                <label for="sc-row' . $rowNum . '-comments">Comments:</label>
+                <textarea name="sc-row' . $rowNum . '-comments"
+                          id="sc-row' . $rowNum . '-comments"
+                          class="sc-rows-comments"
+                          placeholder="testing"
+                          value="' . $this->rowOther['sc-row' . $rowNum . '-comments'] . '"
+                ></textarea>
+              </div>
+            </div>';
+
+                    $rowNum++;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        */?>
+
+
+        <!--/.sc-row-entry  BEGINS-->
+
+        <!-- <div class="sc-row-entry">
+
+          <div class="col-md-12">
+            <label for="sc-row1-unitnum">Unit Number or Area: <br />
+            <span class="sc-unit-label">(Strata/Commercial Buildings Only)</span></label>
+            <input  type="text"
+                    name="sc-row1-unitnum"
+                    id="sc-row1-unitnum"
+                    class="sc-rows-unitnum"
+                    placeholder="" />
+          </div>
+          <div class="col-md-4">
+            <label for="sc-row1-type">Type of Work:</label>
+            <input  type="text"
+                    name="sc-row1-type"
+                    id="sc-row1-type"
+                    class="sc-rows-type"
+                    placeholder="" />
+          </div>
+          <div class="col-md-4">
+            <label for="sc-row1-trade">Trade Name:</label>
+            <input  type="text"
+                    name="sc-row1-trade"
+                    id="sc-row1-trade"
+                    class="sc-rows-trade"
+                    placeholder="" />
+          </div>
+          <div class="col-md-4">
+            <label for="sc-row1-trade-email">Trade Email:</label>
+            <input  type="text"
+                    name="sc-row1-trade-email"
+                    id="sc-row1-trade-email"
+                    class="sc-rows-trade-email"
+                    placeholder="" />
+          </div>
+          <div class="col-md-4">
+            <label for="sc-row1-days">Number of Days Needed:</label>
+            <input  type="text"
+                    name="sc-row1-days"
+                    id="sc-row1-days"
+                    class="sc-rows-days"
+                    placeholder="" />
+          </div>
+          <div class="col-md-8">
+            <label for="sc-row1-comments">Comments:</label>
+            <textarea name="sc-row1-comments"
+                      id="sc-row1-comments"
+                      class="sc-rows-comments"
+                      placeholder="testing"></textarea>
+          </div>
+
+        </div> -->
+        <!--/.sc-row-entry  ENDS-->
+    </div>
+
+    <input  type="button"
+            value="Add row"
+            id="sc-addrows"/>
+
+
+    <hr />
+    <input  type="submit"
+            value="Save & Continue"
+            id="sc-submit" />
+
+</form>

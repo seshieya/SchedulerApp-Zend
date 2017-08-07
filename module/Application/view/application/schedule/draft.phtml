@@ -1,0 +1,195 @@
+    <h1>Schedule Maker</h1>
+
+    <form method="post" action="/save">
+
+    <table id="sc-table-job">
+        <thead>
+        <tr>
+            <th>Job Number</th>
+            <th>Address</th>
+            <th>Access</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+                 echo "<tr>
+                    <td><input type='text' name='sc-job-number' id='sc-job-number' value='" . $this->job['sc-job-number'] . "' /></td>
+                    <td><input type='text' name='sc-job-address' id='sc-job-address' value='" . $this->job['sc-job-address'] . "' /></td>
+                    <td><textarea name='sc-job-access' id='sc-job-access'>" . $this->job['sc-job-access'] . "</textarea></td>
+                  </tr>";
+        ?>
+        </tbody>
+
+    </table>
+
+
+
+    <table id="sc-table-row">
+        <tr>
+            <th>Type of Work</th>
+            <th>Trade</th>
+            <th>Trade Email</th>
+            <th>Date In</th>
+            <th>Date Out</th>
+            <th>Comments</th>
+        </tr>
+
+        <?php
+
+        $rowNum = 1;
+        while(true) {
+            if(isset($this->rowOther['sc-row'.$rowNum.'-type'])) {
+                echo "<tr>
+                      <td><input    type='text' 
+                                    name='sc-row" . $rowNum . "-type' 
+                                    id='sc-row" . $rowNum . "-type' 
+                                    value='" . $this->rowOther['sc-row' . $rowNum . '-type'] . "' 
+                          />
+                      </td>
+                      <td><input    type='text' 
+                                    name='sc-row" . $rowNum . "-trade' 
+                                    id='sc-row" . $rowNum . "-trade' 
+                                    value='" . $this->rowOther['sc-row' . $rowNum . '-trade'] . "' 
+                          />
+                      </td>
+                      <td><input    type='text'
+                                    name='sc-row" . $rowNum . "-trade-email'
+                                    id='sc-row" . $rowNum . "-trade-email'
+                                    value='" . $this->rowOther['sc-row' . $rowNum . '-trade-email'] . "' 
+                          />
+                      </td>
+                      <td><input    type='text' 
+                                    name='sc-row" . $rowNum . "-dayIn'
+                                    id='sc-row" . $rowNum . "-dayIn'
+                                    value='" . $this->rowDayInDayOut[$rowNum . 'dayIn'] . "' 
+                          />
+                      </td>
+                      <td><input    type='text' 
+                                    name='sc-row" . $rowNum . "-dayOut' 
+                                    id='sc-row" . $rowNum . "-dayOut' 
+                                    value='" . $this->rowDayInDayOut[$rowNum . 'dayOut'] . "' 
+                          />
+                      </td>
+                      <td><textarea name='sc-row" . $rowNum . "-comments' 
+                                    id='sc-row" . $rowNum . "-comments' 
+                          >" . $this->rowOther['sc-row' . $rowNum . '-comments'] . "</textarea>
+                      </td>
+                    </tr>";
+
+                $rowNum++;
+            }
+            else {
+                break;
+            }
+        }
+
+        ?>
+
+
+
+    </table>
+
+        <input type="submit" value="Save" />
+
+    </form>
+
+    <!--<form method="post" action="/">
+        <input type="input"
+               name="job"
+               id="job"
+               value='<?php /*echo json_encode($this->job); */?>'
+        />
+        <input type="input"
+               name="rowOther"
+               id="rowOther"
+               value='<?php /*echo json_encode($this->rowOther); */?>'
+        />
+        <input type="input"
+               name="rowDayInDayOut"
+               id="rowDayInDayOut"
+               value='<?php /*echo json_encode($this->rowDayInDayOut); */?>'
+        />
+        <input type="submit" value="Edit" />
+    </form>-->
+
+<!--    <form method="post" action="/save">
+        <input type="hidden"
+               name="job"
+               id="job"
+               value="<?php /*echo json_encode($this->job); */?>"/>
+        <input type="hidden"
+               name="rowOther"
+               id="rowOther"
+               value="<?php /*echo json_encode($this->rowOther); */?>"/>
+        <input type="hidden"
+               name="rowDayInDayOut"
+               id="rowDayInDayOut"
+               value="<?php /*echo json_encode($this->rowDayInDayOut); */?>"/>
+        <input type="submit" value="Save" />
+    </form>-->
+
+
+    <!--<script>
+
+        $(function () {
+            //Read more: http://ssiddique.info/jquery-and-editable-html-table.html#ixzz4noYAlhGX
+            //1. Creating Editable cell in HTML table
+            $("td").dblclick(function () {
+                var OriginalContent = $(this).text();
+                $(this).addClass("cellEditing");
+                $(this).html("<input type='text' value='" + OriginalContent + "' />");
+
+                $(this).children().first().focus();
+
+                $(this).children().first().keypress(function (e) {
+                    if (e.which == 13) {
+                        var newContent = $(this).val();
+                        $(this).parent().text(newContent);
+                        $(this).parent().removeClass("cellEditing");
+                    }
+                });
+
+                $(this).children().first().blur(function () {
+                    $(this).parent().text(OriginalContent);
+                    $(this).parent().removeClass("cellEditing");
+                });
+
+                $(this).find('input').dblclick(function(e){
+                    e.stopPropagation();
+                });
+            });
+
+            //Code for Ajax
+            $(this).children().first().keypress(function (e) {
+                if (e.which == 13) {
+                    var fullContent = $(this).val();
+                    $(this).parent().html(fullContent);
+                    $(this).parent().removeClass("cellEditing");
+                    //Call the server side file to communicate with database.
+                    var URL = '/save';
+                    //alert (URL);
+                    var xmlhttp;
+                    if (window.XMLHttpRequest) {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else {
+                        // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function () {
+                        // if successfully done it will return status 200
+                        if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+                            alert('Can not update comment. Contact admin')
+                        }
+
+                    };
+                    xmlhttp.open("POST", URL, true);
+                    xmlhttp.send();
+                }
+            });
+
+        });
+    </script>-->
+
+

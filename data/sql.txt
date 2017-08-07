@@ -1,0 +1,106 @@
+DROP TABLE trade;
+DROP TABLE employee;
+DROP TABLE job;
+DROP TABLE schedule;
+DROP TABLE schedule_row;
+
+ALTER TABLE schedule auto_increment = 1;
+
+CREATE TABLE trade(
+	trade_id			int(10) primary key 	not null		auto_increment,
+	trade_name		varchar(255) 			not null
+);
+
+CREATE TABLE employee(
+	emp_id 			int(10) primary key 	not null 	auto_increment,
+	first_name		varchar(255)			null,
+	last_name		varchar(255)			null,
+	email 			varchar(254)			not null,
+	phone 			char(10) 				not null
+);
+
+CREATE TABLE job(
+	job_id 			int(11) primary key 	not null,
+	emp_id			int(10)					not null,
+	address			text						not null,
+	access			text						not null,
+	FOREIGN KEY fk_emp_id(emp_id)			REFERENCES 	employee(emp_id)
+);
+
+CREATE TABLE schedule(
+	sched_id			int(10) primary key	not null		auto_increment,
+	start_date		char(10) 				null,
+	version_num		int(10) 					not null,
+	modified_date 	timestamp				not null,
+	job_id			int(10) 					not null,
+	FOREIGN KEY fk_job_id(job_id)			REFERENCES 	job(job_id)
+);
+
+
+CREATE TABLE schedule_row(
+	row_id			int(10) primary key 	not null		auto_increment,
+	sched_id			int(10) 					not null,
+	trade_id			int(10)					not null,
+	trade_email		varchar(254)			null,
+	type_of_work	varchar(255)			not null,
+	day_range		int(10) 					not null,
+	comments			text						null,
+	unit_num			varchar(255)			null,
+	FOREIGN KEY fk_sched_id(sched_id)	REFERENCES 	schedule(sched_id),
+	FOREIGN KEY fk_trade_id(trade_id) 	REFERENCES 	trade(trade_id)
+);
+
+
+
+####################################
+###without foreign key references###
+####################################
+
+CREATE TABLE trade(
+	trade_id			int(10) primary key 	not null		auto_increment,
+	trade_name		varchar(255) 			not null
+);
+
+CREATE TABLE employee(
+	emp_id 			int(10) primary key 	not null 	auto_increment,
+	first_name		varchar(255)			null,
+	last_name		varchar(255)			null,
+	email 			varchar(254)			not null,
+	phone 			char(10) 				not null
+);
+
+CREATE TABLE job(
+	job_id 			int(11) primary key 	not null,
+	emp_id			int(10)					not null,
+	address			text						not null,
+	access			text						not null
+);
+
+CREATE TABLE schedule(
+	sched_id			int(10) primary key	not null		auto_increment,
+	start_date		char(10) 				null,
+	version_num		int(10) 					not null,
+	modified_date 	timestamp				not null,
+	job_id			int(10) 					not null
+);
+
+#no start_date in table:
+CREATE TABLE schedule(
+	sched_id			int(10) primary key	not null		auto_increment,
+	version_num		int(10) 					not null,
+	modified_date 	timestamp				not null,
+	job_id			int(10) 					not null
+);
+
+CREATE TABLE schedule_row(
+	row_id			int(10) primary key 	not null		auto_increment,
+	sched_id			int(10) 					not null,
+	trade_id			int(10)					not null,
+	trade_email		varchar(254)			null,
+	type_of_work	varchar(255)			not null,
+	day_range		int(10) 					not null,
+	comments			text						null,
+	unit_num			varchar(255)			null
+);
+
+

@@ -1,0 +1,86 @@
+/** {
+	border: 1px solid black;
+	box-sizing: border-box;
+}*/
+
+body {
+	padding-top: 50px;
+	font-family: 'Open Sans', arial, sans-serif;
+}
+
+/*label textarea {
+	vertical-align: top;
+}*/
+
+label, input, textarea {
+	display: block;
+}
+
+label {
+	margin-bottom: 8px;
+}
+
+input, textarea {
+	margin-bottom: 27px;
+	padding: 3px;
+}
+
+hr {
+	clear: left;
+}
+
+.sc-row-entry {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 15px 0 15px 0;
+}
+
+/*.sc-row-entry > div, form > div {
+	margin-bottom: 20px;
+}*/
+
+.sc-unit-label {
+	font-size: 0.95em;
+	color: gray;
+}
+
+label[class="error"] {
+	color: red;
+	font-size: 0.9em;
+	font-style: italic;
+}
+
+input[id^="sc-"].error, textarea[id^="sc-"].error{
+	margin-bottom: 2px;
+}
+
+
+
+
+/*==========================================*/
+
+#sc-table-job *, #sc-table-row * {
+	border: 1px solid black;
+}
+
+#sc-table-job td, #sc-table-job th, #sc-table-row td, #sc-table-row th {
+	padding: 5px;
+}
+
+#sc-table-job {
+	margin-bottom: 30px;
+}
+
+#sc-table-job input[type="text"], #sc-table-row input[type="text"] {
+	margin: 0;
+	padding: 5px;
+	border: lightgrey 1px solid;
+	background-color: #ebf0ff;
+}
+
+#sc-table-job textarea, #sc-table-row textarea {
+	margin: 0;
+	padding: 5px;
+	border: lightgrey 1px solid;
+	background-color: #ebf0ff;
+}
