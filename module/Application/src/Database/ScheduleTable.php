@@ -30,5 +30,18 @@ class ScheduleTable extends BaseTable
         return $row['version_num'];
     }
 
+    public function getLastScheduleId() {
+        $select = $this->sql
+            ->select()
+            ->columns(['sched_id'])
+            ->from('schedule');
+
+        $query = $this->sql->buildSqlString($select);
+
+        $row = $this->adapter->query($query)->execute()->current();
+
+        return $row['sched_id'];
+    }
+
 
 }

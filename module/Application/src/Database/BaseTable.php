@@ -31,4 +31,5 @@ class BaseTable
 
         $this->sql = new Sql($this->adapter);
     }
+
 }

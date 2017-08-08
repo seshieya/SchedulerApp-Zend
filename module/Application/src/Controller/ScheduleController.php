@@ -22,6 +22,11 @@ use Application\Database\JobTable;
 use Application\Database\EmployeeTable;
 use Application\Database\TradeTable;
 
+use Application\Model\Job;
+use Application\Model\Schedule;
+use Application\Model\ScheduleRow;
+
+
 
 class ScheduleController extends AbstractActionController
 {
@@ -84,11 +89,88 @@ class ScheduleController extends AbstractActionController
         $post = $this->getRequest()->getPost();
 
         $jobArray = [];
+        $tradeArray = [];
         $scheduleArray = [];
         $scheduleRowArray = [];
+
         $data = [];
 
-        foreach($post as $key => $value) {
+        $jobAndRowsArray = $this->_separateJobAndRows($post);
+
+        $jobModel = new Job();
+        $jobModel
+            ->setJobNumber($jobAndRowsArray['job']['sc-job-number'])
+            ->setEmpId(0)
+            ->setAddress($jobAndRowsArray['job']['sc-job-address'])
+            ->setAccess($jobAndRowsArray['job']['sc-job-access']);
+        $jobArray = $jobModel->getArrayForDatabase();
+
+        $scheduleModel = new Schedule();
+        $scheduleModel
+            ->setJobNumber($jobAndRowsArray['job']['sc-job-number'])
+            ->setVersionNum(1);
+        $scheduleArray = $scheduleModel->getArrayForDatabase();
+
+
+
+
+        $this->jobTable->insertJobData($jobArray);
+        $this->scheduleTable->insertScheduleData($scheduleArray);
+
+
+
+        $scheduleRowModel = new ScheduleRow();
+        $rowNum = ScheduleController::ROW_ID_START;
+        if(isset($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-type'])) {
+            for($i=0; $i < sizeof($jobAndRowsArray['rowOther']); $i++) {
+                $scheduleRowModel->reset();
+
+                $scheduleId = $this->scheduleTable->getLastScheduleId();
+
+                $scheduleRowModel
+                    ->setSchedId($scheduleId)
+                    ->setTradeName($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-trade'])
+                    ->setTradeEmail($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-trade-email'])
+                    ->setTypeOfWork($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-type'])
+                    ->setDayIn($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-dayIn'])
+                    ->setDayOut($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-dayOut'])
+                    ->setComments($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-comments']);
+
+                $scheduleRowArray[] = $scheduleRowModel->getArrayForDatabase();
+
+            }
+            $rowNum++;
+        }
+
+
+
+
+/*        for($i=0; $i < sizeof($jobAndRowsArray['job']); $i++) {
+            $jobModel->reset();
+
+            $jobModel
+                ->setJobNumber($jobAndRowsArray['job']['sc-job-number'])
+                ->setEmpId(0)
+                ->setAddress($jobAndRowsArray['job']['sc-job-address'])
+                ->setAccess($jobAndRowsArray['job']['sc-job-access']);
+
+            $jobArray = $jobModel->getArrayForDatabase();
+        }*/
+
+/*        foreach($jobAndRowsArray['job'] as $job) {
+            $jobModel->reset();
+
+            $jobModel
+                ->setJobNumber($job['job']['sc-job-number'])
+                ->setEmpId(0)
+                ->setAddress($job['job']['sc-job-address'])
+                ->setAccess($job['job']['sc-job-access']);
+
+            $jobArray = $jobModel->getArrayForDatabase();
+        }*/
+
+
+        /*foreach($post as $key => $value) {
             if($key == 'sc-job-number') {
                 $jobArray['job_id'] = $value;
                 $scheduleArray['job_id'] = $value;
@@ -101,14 +183,27 @@ class ScheduleController extends AbstractActionController
             if($key == 'sc-job-access') {
                 $jobArray['access'] = $value;
             }
+
         }
 
-        $scheduleArray['version_num'] = 1;
+        $rowNum = 1;
+        foreach($post as $key => $value) {
+            if(preg_match('/^sc-row' . $rowNum . '/', $key)) {
+                $scheduleRowArray[$key] = $value;
+            }
+        }*/
+
+        //$scheduleArray['version_num'] = 1;
 
         //should use a function here to set the version number and modified date.....
 
-        $this->jobTable->insertJobData($jobArray);
-        $this->scheduleTable->insertScheduleData($scheduleArray);
+
+        $this->scheduleRowTable->insertScheduleRowData($scheduleRowArray);
+
+
+
+        //$scheduleRowArray['sched_id'] = $this->scheduleTable->getLastScheduleId();
+
 
 
         $data['message'] = 'Schedule is saved';

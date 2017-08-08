@@ -9,20 +9,28 @@
 namespace Application\Model;
 
 
-class Job
+class Job implements ArrayForDatabase
 {
     private $jobNumber;
     private $empId;
     private $address;
     private $access;
+    private $jobNumberFormatted;
+
+    public function reset() {
+        $this->jobNumber = 0;
+        $this->empId = 0;
+        $this->address = '';
+        $this->access = '';
+        $this->jobNumberFormatted = 0;
+    }
 
     /**
      * @param $jobNumber
      */
     public function setJobNumber($jobNumber) {
-        if(strlen($jobNumber) >= 8 && strlen($jobNumber) <= 11) {
-            $this->jobNumber = $jobNumber;
-        }
+        $this->jobNumber = $jobNumber;
+        return $this;
     }
 
     /**
@@ -36,9 +44,8 @@ class Job
      * @param $empId
      */
     public function setEmpId($empId) {
-        if($empId > 0) {
-            $this->empId = $empId;
-        }
+        $this->empId = $empId;
+        return $this;
     }
 
     /**
@@ -62,6 +69,7 @@ class Job
     public function setAddress($address)
     {
         $this->address = $address;
+        return $this;
     }
 
     /**
@@ -78,6 +86,42 @@ class Job
     public function setAccess($access)
     {
         $this->access = $access;
+        return $this;
+    }
+
+    /**
+     * @param $jobNumber
+     */
+    public function setJobNumberFormatted($jobNumber) {
+        if(strlen($jobNumber) == 9) {
+            $this->jobNumber = preg_replace('/(\d{4})(\d{5})/', '$1-$2', $jobNumber);
+        }
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJobNumberFormatted() {
+        return $this->jobNumberFormatted;
+    }
+
+    public function getArrayForDatabase() {
+        return [
+            'job_id' => $this->getJobNumber(),
+            'emp_id' => $this->getEmpId(),
+            'address' => $this->getAddress(),
+            'access' => $this->getAccess()
+        ];
+    }
+
+    public function getArrayForView() {
+        return [
+            'job_id' => $this->getJobNumberFormatted(),
+            'emp_id' => $this->getEmpId(),
+            'address' => $this->getAddress(),
+            'access' => $this->getAccess()
+        ];
     }
 
 
