@@ -104,4 +104,10 @@ CREATE TABLE schedule_row(
 	unit_num			varchar(255)			null
 );
 
+CREATE TABLE login(
+	login_id			int(10) primary key 	not null		auto_increment,
+	username			varchar(255)			not null,
+	password			varchar(255)			not null,
+	emp_id 			int(10)					not null
+);
 
