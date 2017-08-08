@@ -192,7 +192,7 @@ class ScheduleRow implements ArrayForDatabase
             'type_of_work' => $this->getTypeOfWork(),
             'day_in' => $this->getDayIn(),
             'day_out' => $this->getDayOut(),
-            'comments' => $this->getComments()
+            'comments' => $this->getComments(),
         ];
     }
 

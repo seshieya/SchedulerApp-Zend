@@ -112,17 +112,14 @@ class ScheduleController extends AbstractActionController
         $scheduleArray = $scheduleModel->getArrayForDatabase();
 
 
-
-
         $this->jobTable->insertJobData($jobArray);
         $this->scheduleTable->insertScheduleData($scheduleArray);
 
 
-
         $scheduleRowModel = new ScheduleRow();
         $rowNum = ScheduleController::ROW_ID_START;
-        if(isset($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-type'])) {
-            for($i=0; $i < sizeof($jobAndRowsArray['rowOther']); $i++) {
+        while(true) {
+            if(isset($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-type'])) {
                 $scheduleRowModel->reset();
 
                 $scheduleId = $this->scheduleTable->getLastScheduleId();
@@ -136,11 +133,17 @@ class ScheduleController extends AbstractActionController
                     ->setDayOut($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-dayOut'])
                     ->setComments($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-comments']);
 
-                $scheduleRowArray[] = $scheduleRowModel->getArrayForDatabase();
-
+                $scheduleRowArray = $scheduleRowModel->getArrayForDatabase();
+                $this->scheduleRowTable->insertScheduleRowData($scheduleRowArray);
+                $rowNum++;
             }
-            $rowNum++;
+            else {
+                break;
+            }
+
         }
+
+
 
 
 
@@ -198,7 +201,6 @@ class ScheduleController extends AbstractActionController
         //should use a function here to set the version number and modified date.....
 
 
-        $this->scheduleRowTable->insertScheduleRowData($scheduleRowArray);
 
 
 
