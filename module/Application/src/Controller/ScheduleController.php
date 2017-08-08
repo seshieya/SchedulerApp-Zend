@@ -104,15 +104,16 @@ class ScheduleController extends AbstractActionController
             ->setAddress($jobAndRowsArray['job']['sc-job-address'])
             ->setAccess($jobAndRowsArray['job']['sc-job-access']);
         $jobArray = $jobModel->getArrayForDatabase();
+        //insert into Job Table:
+        $this->jobTable->insertJobData($jobArray);
+
 
         $scheduleModel = new Schedule();
         $scheduleModel
             ->setJobNumber($jobAndRowsArray['job']['sc-job-number'])
             ->setVersionNum(1);
         $scheduleArray = $scheduleModel->getArrayForDatabase();
-
-
-        $this->jobTable->insertJobData($jobArray);
+        //insert into Schedule Table:
         $this->scheduleTable->insertScheduleData($scheduleArray);
 
 
@@ -134,6 +135,7 @@ class ScheduleController extends AbstractActionController
                     ->setComments($jobAndRowsArray['rowOther']['sc-row' . $rowNum . '-comments']);
 
                 $scheduleRowArray = $scheduleRowModel->getArrayForDatabase();
+                //insert into Schedule_Row Table:
                 $this->scheduleRowTable->insertScheduleRowData($scheduleRowArray);
                 $rowNum++;
             }

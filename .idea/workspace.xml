@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/module/Application/src/Controller/ScheduleController.php" line="248" />
+    <bookmark url="file://$PROJECT_DIR$/module/Application/src/Controller/ScheduleController.php" line="250" />
     <bookmark url="file://$PROJECT_DIR$/public/css/schedule.css" />
   </component>
   <component name="ChangeListManager">
@@ -21,8 +21,8 @@
           <file leaf-file-name="draft.phtml" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/module/Application/view/application/schedule/draft.phtml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="493">
-                  <caret line="89" column="12" lean-forward="true" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
+                <state relative-caret-position="136">
+                  <caret line="38" column="20" lean-forward="true" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
                   <folding>
                     <marker date="1501568372920" expanded="true" signature="305:330" ph="..." />
                     <marker date="1501568372920" expanded="true" signature="305:728" ph="..." />
@@ -154,8 +154,8 @@
           <file leaf-file-name="ScheduleController.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/module/Application/src/Controller/ScheduleController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="442">
-                  <caret line="141" column="13" lean-forward="true" selection-start-line="141" selection-start-column="13" selection-end-line="141" selection-end-column="13" />
+                <state relative-caret-position="238">
+                  <caret line="124" column="0" lean-forward="true" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
                   <folding>
                     <element signature="e#6#278#0#PHP" expanded="true" />
                     <element signature="e#318#353#0#PHP" expanded="true" />
@@ -768,12 +768,12 @@
       <workItem from="1501051552244" duration="3455000" />
       <workItem from="1501459789540" duration="17358000" />
       <workItem from="1501577382838" duration="13228000" />
-      <workItem from="1502095944754" duration="15954000" />
+      <workItem from="1502095944754" duration="18228000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139473000" />
+    <option name="totallyTimeSpent" value="141747000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -809,7 +809,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/module/Application/src/Controller/ScheduleController.php</url>
-          <line>120</line>
+          <line>121</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
@@ -1289,38 +1289,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/module/Application/view/application/schedule/draft.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="89" column="12" lean-forward="true" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
-          <folding>
-            <marker date="1501568372920" expanded="true" signature="305:330" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="305:728" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="330:461" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="330:580" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="465:580" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1168:3207" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1195:1513" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1217:1485" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1540:1861" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1562:1833" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1888:2224" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="1910:2196" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2251:2564" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2273:2536" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2591:2909" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2613:2881" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2936:3085" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2936:3139" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2936:3181" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2936:3202" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2946:3085" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="2984:3085" ph="..." />
-            <marker date="1501568372920" expanded="true" signature="3415:3543" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/zendframework/zend-mvc/src/MvcEvent.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -1363,10 +1331,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/module/Application/view/application/schedule/draft.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="38" column="20" lean-forward="true" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+          <folding>
+            <marker date="1501568372920" expanded="true" signature="305:330" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="305:728" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="330:461" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="330:580" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="465:580" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1168:3207" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1195:1513" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1217:1485" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1540:1861" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1562:1833" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1888:2224" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="1910:2196" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2251:2564" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2273:2536" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2591:2909" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2613:2881" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2936:3085" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2936:3139" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2936:3181" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2936:3202" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2946:3085" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="2984:3085" ph="..." />
+            <marker date="1501568372920" expanded="true" signature="3415:3543" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/module/Application/src/Controller/ScheduleController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="141" column="13" lean-forward="true" selection-start-line="141" selection-start-column="13" selection-end-line="141" selection-end-column="13" />
+        <state relative-caret-position="238">
+          <caret line="124" column="0" lean-forward="true" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
           <folding>
             <element signature="e#6#278#0#PHP" expanded="true" />
             <element signature="e#318#353#0#PHP" expanded="true" />
