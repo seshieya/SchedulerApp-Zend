@@ -44,22 +44,63 @@ return [
                     ],
                 ],
             ],
-            'application' => [
-                'type'    => Segment::class,
+            'login' => [
+                'type' => Literal::class,
                 'options' => [
-                    'route'    => '/application[/:action]',
+                    'route'    => '/login',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'login',
                     ],
                 ],
             ],
+            'loginVerify' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/logincheck',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'loginVerify',
+                    ],
+                ],
+            ],
+            'signup' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/signup',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'signup',
+                    ],
+                ],
+            ],
+            'saveSignup' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/thanks',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'saveSignup',
+                    ],
+                ],
+            ],
+//            'application' => [
+//                'type'    => Segment::class,
+//                'options' => [
+//                    'route'    => '/application[/:action]',
+//                    'defaults' => [
+//                        'controller' => Controller\IndexController::class,
+//                        'action'     => 'index',
+//                    ],
+//                ],
+//            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\ScheduleController::class => InvokableFactory::class,
+            Controller\LoginController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
