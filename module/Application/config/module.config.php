@@ -50,20 +50,50 @@ return [
                     'route'    => '/login',
                     'defaults' => [
                         'controller' => Controller\LoginController::class,
-                        'action'     => 'index',
+                        'action'     => 'login',
                     ],
                 ],
             ],
-            'application' => [
-                'type'    => Segment::class,
+            'loginVerify' => [
+                'type' => Literal::class,
                 'options' => [
-                    'route'    => '/application[/:action]',
+                    'route'    => '/logincheck',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'loginVerify',
                     ],
                 ],
             ],
+            'signup' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/signup',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'signup',
+                    ],
+                ],
+            ],
+            'saveSignup' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/thanks',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'saveSignup',
+                    ],
+                ],
+            ],
+//            'application' => [
+//                'type'    => Segment::class,
+//                'options' => [
+//                    'route'    => '/application[/:action]',
+//                    'defaults' => [
+//                        'controller' => Controller\IndexController::class,
+//                        'action'     => 'index',
+//                    ],
+//                ],
+//            ],
         ],
     ],
     'controllers' => [

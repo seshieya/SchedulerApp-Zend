@@ -2,11 +2,11 @@
 
 namespace Application\Database;
 
-class EmployeeTable extends BaseTable
+class LoginTable extends BaseTable
 {
-    public function insertEmployeeData(array $data) {
+    public function insertLoginData(array $data) {
         $insert = $this->sql
-            ->insert('employee')
+            ->insert('Login')
             ->values($data);
 
         $query = $this->sql->buildSqlString($insert);
@@ -14,16 +14,17 @@ class EmployeeTable extends BaseTable
         return $this->adapter->query($query)->execute();
     }
 
-    public function getLastEmployeeId() {
+    public function getPassword($username) {
         $select = $this->sql
             ->select()
-            ->columns(['emp_id'])
-            ->from('employee');
+            ->columns(['password'])
+            ->from('login')
+            ->where('username = "' . $username . '"');
 
         $query = $this->sql->buildSqlString($select);
 
         $row = $this->adapter->query($query)->execute()->current();
 
-        return $row['emp_id'];
+        return $row['password'];
     }
 }

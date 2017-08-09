@@ -9,7 +9,7 @@
 namespace Application\Model;
 
 
-class Employee
+class Employee implements ArrayForDatabase
 {
     //private $empId;
     private $firstName;
@@ -47,6 +47,7 @@ class Employee
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
@@ -63,6 +64,7 @@ class Employee
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
@@ -79,6 +81,7 @@ class Employee
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -95,7 +98,17 @@ class Employee
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
     }
 
+    public function getArrayForDatabase()
+    {
+        return [
+            'first_name' => $this->getFirstName(),
+            'last_name' => $this->getLastName(),
+            'email' => $this->getEmail(),
+            'phone' => $this->getPhone()
+        ];
+    }
 
 }
