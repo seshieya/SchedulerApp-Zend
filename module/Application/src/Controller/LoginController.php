@@ -42,6 +42,7 @@ class LoginController extends AbstractActionController
 
         if($bcrypt->verify($password, $passwordHash)) {
             $this->redirect()->toRoute('home');
+            
         }
 
         return new ViewModel();
