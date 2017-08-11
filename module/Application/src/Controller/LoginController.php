@@ -50,7 +50,22 @@ class LoginController extends AbstractActionController
 
             $sessionManager = new SessionManager();
             $sessionContainer = new Container('schedulerContainer', $sessionManager);
-            $sessionContainer->username = $username;
+
+            //get employee details from database:
+            $empId = $this->loginTable->getEmpId($username);
+
+            $empDetails = $this->employeeTable->getEmployeeDetails($empId);
+            $employeeModel = new Employee();
+            $employeeModel
+                ->setFirstName($empDetails['first_name'])
+                ->setLastName($empDetails['last_name'])
+                ->setEmail($empDetails['email'])
+                ->setPhone($empDetails['phone']);
+            $empData = $employeeModel->getArrayForView();
+
+            $sessionContainer->coordinatorName = $empData['full_name'];
+            $sessionContainer->coordinatorEmail = $empData['email'];
+            $sessionContainer->coordinatorPhone = $empData['phone'];
 
             $this->redirect()->toRoute('home');
 

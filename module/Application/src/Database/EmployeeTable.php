@@ -26,4 +26,15 @@ class EmployeeTable extends BaseTable
 
         return $row['emp_id'];
     }
+
+    public function getEmployeeDetails($empId) {
+        $select = $this->sql
+            ->select()
+            ->from('employee')
+            ->where('emp_id =' . $empId);
+
+        $query = $this->sql->buildSqlString($select);
+
+        return $this->adapter->query($query)->execute();
+    }
 }
