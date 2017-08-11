@@ -12,11 +12,15 @@ use Zend\View\Model\ViewModel;
 
 use Zend\Crypt\Password\Bcrypt;
 
-use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
+use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Authentication\AuthenticationService;
+
+
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
+
+use Application\Service\AuthAdapter;
 
 use Application\Database\EmployeeTable;
 use Application\Database\LoginTable;
@@ -46,13 +50,16 @@ class LoginController extends AbstractActionController
 
         $bcrypt = new Bcrypt();
 
-        if($bcrypt->verify($password, $passwordHashFromDb)) {
+        $authAdapter = new AuthAdapter();
 
-            $sessionManager = new SessionManager();
+
+        //if($bcrypt->verify($password, $passwordHashFromDb)) {
+
+            /*$sessionManager = new SessionManager();
             $sessionContainer = new Container('schedulerContainer', $sessionManager);
-            $sessionContainer->username = $username;
+            $sessionContainer->username = $username;*/
 
-            $this->redirect()->toRoute('home');
+            //$this->redirect()->toRoute('home');
 
 
             /*$dbAdapter = new Adapter([
@@ -62,7 +69,7 @@ class LoginController extends AbstractActionController
                 'password' => '',
                 'database' => 'scheduler',
             ]);
-            $authAdapter = new AuthAdapter($dbAdapter);
+            $authAdapter = new CredentialTreatmentAdapter($dbAdapter);
             $authAdapter
                 ->setTableName('login')
                 ->setIdentityColumn('username')
@@ -73,7 +80,7 @@ class LoginController extends AbstractActionController
                 ->setCredential($passwordHashFromDb);
 
             $result = $authAdapter->authenticate();*/
-        }
+        //}
 
         return new ViewModel();
     }
