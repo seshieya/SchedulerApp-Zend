@@ -47,10 +47,13 @@ class LoginController extends AbstractActionController
         $bcrypt = new Bcrypt();
 
         if($bcrypt->verify($password, $passwordHashFromDb)) {
+
+            $sessionManager = new SessionManager();
+            $sessionContainer = new Container('schedulerContainer', $sessionManager);
+            $sessionContainer->username = $username;
+
             $this->redirect()->toRoute('home');
 
-            $container = new Container();
-            $sessionManager = $container->get(SessionManager::class);
 
             /*$dbAdapter = new Adapter([
                 'driver' => 'Pdo_Mysql',

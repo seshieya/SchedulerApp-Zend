@@ -10,10 +10,20 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+use Zend\Session\Container;
+use Zend\Session\SessionManager;
+
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+
+        $sessionManager = new SessionManager();
+        $sessionContainer = new Container('schedulerContainer', $sessionManager);
+
+        $sessionData = [];
+        $sessionData['username'] = $sessionContainer->username;
+
         /*$post = $this->getRequest()->getPost();
         $job = [];
         $rowOther = [];
@@ -40,6 +50,6 @@ class IndexController extends AbstractActionController
             $data = ['job' => $jobDecoded, 'rowOther' => $rowOtherDecoded, 'rowDayInDayOut' => $rowDayInDayOutDecoded];
         }*/
 
-        return new ViewModel();
+        return new ViewModel($sessionData);
     }
 }

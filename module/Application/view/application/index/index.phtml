@@ -32,10 +32,10 @@
                 name="sc-coordinator"
                 id="sc-coordinator"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coordinator'])) {
-                    echo $this->job['sc-coordinator'];
-                }*/
+                value="<?php
+                if(isset($this->username)) {
+                    echo $this->username;
+                }
                 ?>"
         />
     </div>
