@@ -1,0 +1,56 @@
+<h1>Restoration Schedule</h1>
+
+<table id="sc-table-job">
+    <thead>
+    <tr>
+        <th>Job Number</th>
+        <th>Address</th>
+        <th>Access</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    echo "<tr>
+            <td><input type='text' name='sc-job-number' id='sc-job-number' value='" . $this->job['sc-job-number'] . "' /></td>
+            <td><input type='text' name='sc-job-address' id='sc-job-address' value='" . $this->job['sc-job-address'] . "' /></td>
+            <td><textarea name='sc-job-access' id='sc-job-access'>" . $this->job['sc-job-access'] . "</textarea></td>
+          </tr>";
+    ?>
+    </tbody>
+
+</table>
+
+
+<table id="sc-table-row">
+    <tr>
+        <th>Type of Work</th>
+        <th>Trade</th>
+        <th>Date In</th>
+        <th>Date Out</th>
+        <th>Comments</th>
+    </tr>
+
+    <?php
+
+    $rowNum = 1;
+    foreach($this->rows as $rows) {
+        echo "<tr>
+                      <td>" . $rows['trade_name'] . "</td>
+                      <td>" . $rows['type_of_work'] . "</td>
+                      <td>" . $rows['day_in'] . "</td>
+                      <td>" . $rows['day_out'] . "</td>
+                      <td>" . $rows['comments'] . "</td>
+                 </tr>";
+
+        $rowNum++;
+    }
+
+    ?>
+
+
+</table>
+
+
+
+
+
