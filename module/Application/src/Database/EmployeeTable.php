@@ -14,11 +14,29 @@ class EmployeeTable extends BaseTable
         return $this->adapter->query($query)->execute();
     }
 
-    public function getLastEmployeeId() {
+    //code below get first row in table, not the last row
+    /*public function getLastEmployeeId() {
         $select = $this->sql
             ->select()
             ->columns(['emp_id'])
             ->from('employee');
+
+        $query = $this->sql->buildSqlString($select);
+
+        $row = $this->adapter->query($query)->execute()->current();
+
+        return $row['emp_id'];
+    }*/
+
+    public function getLastEmployeeId() {
+
+        //below statement is: SELECT emp_id FROM employee ORDER BY emp_id DESC LIMIT 1
+        $select = $this->sql
+            ->select()
+            ->columns(['emp_id'])
+            ->from('employee')
+            ->order('emp_id DESC')
+            ->limit(1);
 
         $query = $this->sql->buildSqlString($select);
 
@@ -35,6 +53,6 @@ class EmployeeTable extends BaseTable
 
         $query = $this->sql->buildSqlString($select);
 
-        return $this->adapter->query($query)->execute();
+        return $this->adapter->query($query)->execute()->current();
     }
 }
