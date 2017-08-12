@@ -5,7 +5,6 @@
         <input  type="text"
                 name="sc-job-number"
                 id="sc-job-number"
-                placeholder="Job Number"
                 <!--value="--><?php
 /*                if(isset($this->job['sc-job-number'])) {
                     echo $this->job['sc-job-number'];
@@ -18,7 +17,6 @@
         <input  type="text"
                 name="sc-job-address"
                 id="sc-job-address"
-                placeholder="Job Address"
                 <!--value="--><?php
 /*                if(isset($this->job['sc-job-address'])) {
                 echo $this->job['sc-job-address'];
@@ -32,10 +30,10 @@
                 name="sc-coordinator"
                 id="sc-coordinator"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coordinator'])) {
-                    echo $this->job['sc-coordinator'];
-                }*/
+                value="<?php
+                if(isset($this->coordinatorName)) {
+                    echo $this->coordinatorName;
+                }
                 ?>"
         />
     </div>
@@ -45,10 +43,10 @@
                 name="sc-coord-phone"
                 id="sc-coord-phone"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coord-phone'])) {
-                    echo $this->job['sc-coord-phone'];
-                }*/
+                value="<?php
+                if(isset($this->coordinatorPhone)) {
+                    echo $this->coordinatorPhone;
+                }
                 ?>"
         />
 
@@ -59,10 +57,10 @@
                 name="sc-coord-email"
                 id="sc-coord-email"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coord-email'])) {
-                    echo $this->job['sc-coord-email'];
-                }*/
+                value="<?php
+                if(isset($this->coordinatorEmail)) {
+                    echo $this->coordinatorEmail;
+                }
                 ?>"
         />
 

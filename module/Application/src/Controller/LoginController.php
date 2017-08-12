@@ -12,6 +12,12 @@ use Zend\View\Model\ViewModel;
 
 use Zend\Crypt\Password\Bcrypt;
 
+use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
+use Zend\Db\Adapter\Adapter;
+use Zend\Authentication\AuthenticationService;
+use Zend\Session\Container;
+use Zend\Session\SessionManager;
+
 use Application\Database\EmployeeTable;
 use Application\Database\LoginTable;
 use Application\Model\Employee;
@@ -36,13 +42,54 @@ class LoginController extends AbstractActionController
     {
         $username = $this->getRequest()->getPost('username');
         $password = $this->getRequest()->getPost('password');
-        $passwordHash = $this->loginTable->getPassword($username);
+        $passwordHashFromDb = $this->loginTable->getPassword($username);
 
         $bcrypt = new Bcrypt();
 
-        if($bcrypt->verify($password, $passwordHash)) {
+        if($bcrypt->verify($password, $passwordHashFromDb)) {
+
+            $sessionManager = new SessionManager();
+            $sessionContainer = new Container('schedulerContainer', $sessionManager);
+
+            //get employee details from database:
+            $empId = $this->loginTable->getEmpId($username);
+
+            $empDetails = $this->employeeTable->getEmployeeDetails($empId);
+            $employeeModel = new Employee();
+            $employeeModel
+                ->setFirstName($empDetails['first_name'])
+                ->setLastName($empDetails['last_name'])
+                ->setEmail($empDetails['email'])
+                ->setPhone($empDetails['phone']);
+            $empData = $employeeModel->getArrayForView();
+
+            $sessionContainer->coordinatorName = $empData['full_name'];
+            $sessionContainer->coordinatorEmail = $empData['email'];
+            $sessionContainer->coordinatorPhone = $empData['phone'];
+
+            //unset($sessionContainer->username);
+
             $this->redirect()->toRoute('home');
-            
+
+
+            /*$dbAdapter = new Adapter([
+                'driver' => 'Pdo_Mysql',
+                'hostname' => 'localhost',
+                'username' => 'root',
+                'password' => '',
+                'database' => 'scheduler',
+            ]);
+            $authAdapter = new AuthAdapter($dbAdapter);
+            $authAdapter
+                ->setTableName('login')
+                ->setIdentityColumn('username')
+                ->setCredentialColumn('password');
+
+            $authAdapter
+                ->setIdentity($username)
+                ->setCredential($passwordHashFromDb);
+
+            $result = $authAdapter->authenticate();*/
         }
 
         return new ViewModel();

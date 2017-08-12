@@ -27,4 +27,18 @@ class LoginTable extends BaseTable
 
         return $row['password'];
     }
+
+    public function getEmpId($username) {
+        $select = $this->sql
+            ->select()
+            ->columns(['emp_id'])
+            ->from('login')
+            ->where('username = "' . $username . '"');
+
+        $query = $this->sql->buildSqlString($select);
+
+        $row = $this->adapter->query($query)->execute()->current();
+
+        return $row['emp_id'];
+    }
 }

@@ -52,7 +52,7 @@ $(function(){
                 <textarea name="sc-row' + rowNum + '-comments"\
                           id="sc-row' + rowNum + '-comments"\
                           class="sc-rows-comments"\
-                          placeholder="testing"></textarea>\
+                          placeholder=""></textarea>\
               </div>\
             </div>';
 
