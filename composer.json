@@ -16,8 +16,7 @@
         "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
-        "zendframework/zendframework": "^3.0",
-        "mpdf/mpdf": "^6.1"
+        "zendframework/zendframework": "^3.0"
     },
     "autoload": {
         "psr-4": {
