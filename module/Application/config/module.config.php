@@ -84,6 +84,26 @@ return [
                     ],
                 ],
             ],
+            'downloadPdf' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/download',
+                    'defaults' => [
+                        'controller' => Controller\PdfController::class,
+                        'action'     => 'download',
+                    ],
+                ],
+            ],
+            'previewBeforeDownload' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/preview',
+                    'defaults' => [
+                        'controller' => Controller\PdfController::class,
+                        'action'     => 'preview',
+                    ],
+                ],
+            ],
 //            'application' => [
 //                'type'    => Segment::class,
 //                'options' => [
@@ -101,6 +121,7 @@ return [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\ScheduleController::class => InvokableFactory::class,
             Controller\LoginController::class => InvokableFactory::class,
+            Controller\PdfController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [

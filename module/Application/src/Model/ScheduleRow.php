@@ -167,6 +167,16 @@ class ScheduleRow implements ArrayForDatabase
         return $this;
     }
 
+    public function getCommentsWithLineBreaks() {
+
+        // Processes \r\n's first so they aren't converted twice.
+        $searchOrder = ["\r\n", "\n", "\r"];
+        $replace = '<br />';
+
+        $str = str_replace($searchOrder, $replace, $this->getComments());
+        return $str;
+    }
+
     /**
      * @return mixed
      */
@@ -193,6 +203,16 @@ class ScheduleRow implements ArrayForDatabase
             'day_in' => $this->getDayIn(),
             'day_out' => $this->getDayOut(),
             'comments' => $this->getComments(),
+        ];
+    }
+
+    public function getArrayForView() {
+        return [
+            'trade_name' => $this->getTradeName(),
+            'type_of_work' => $this->getTypeOfWork(),
+            'day_in' => $this->getDayIn(),
+            'day_out' => $this->getDayOut(),
+            'comments' => $this->getCommentsWithLineBreaks(),
         ];
     }
 
