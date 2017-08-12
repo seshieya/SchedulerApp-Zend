@@ -13,15 +13,4 @@ class ScheduleRowTable extends BaseTable
 
         return $this->adapter->query($query)->execute();
     }
-
-    public function getScheduleRows($schedId) {
-        $select = $this->sql
-            ->select()
-            ->from('schedule_row')
-            ->where('sched_id = ' . $schedId);
-
-        $query = $this->sql->buildSqlString($select);
-
-        return $this->adapter->query($query)->execute();
-    }
 }
