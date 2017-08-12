@@ -30,7 +30,8 @@ class ScheduleTable extends BaseTable
         return $row['version_num'];
     }
 
-    public function getLastScheduleId() {
+    //code below get first row in table, not the last row
+    /*public function getLastScheduleId() {
         $select = $this->sql
             ->select()
             ->columns(['sched_id'])
@@ -41,7 +42,25 @@ class ScheduleTable extends BaseTable
         $row = $this->adapter->query($query)->execute()->current();
 
         return $row['sched_id'];
+    }*/
+
+    public function getLastScheduleId() {
+        //below statement is: SELECT sched_id FROM schedule ORDER BY sched_id DESC LIMIT 1
+        $select = $this->sql
+            ->select()
+            ->columns(['sched_id'])
+            ->from('schedule')
+            ->order('sched_id DESC')
+            ->limit(1);
+
+        $query = $this->sql->buildSqlString($select);
+
+        $row = $this->adapter->query($query)->execute()->current();
+
+        return $row['sched_id'];
     }
+
+
 
 
 }
