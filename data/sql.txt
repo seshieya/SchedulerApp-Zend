@@ -5,6 +5,8 @@ DROP TABLE schedule;
 DROP TABLE schedule_row;
 
 ALTER TABLE schedule auto_increment = 1;
+ALTER TABLE login auto_increment = 1;
+ALTER TABLE employee auto_increment = 1;
 
 CREATE TABLE trade(
 	trade_id			int(10) primary key 	not null		auto_increment,
