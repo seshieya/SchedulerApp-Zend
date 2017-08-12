@@ -33,8 +33,8 @@
                 id="sc-coordinator"
                 placeholder=""
                 value="<?php
-                if(isset($this->username)) {
-                    echo $this->username;
+                if(isset($this->coordinatorName)) {
+                    echo $this->coordinatorName;
                 }
                 ?>"
         />
@@ -45,10 +45,10 @@
                 name="sc-coord-phone"
                 id="sc-coord-phone"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coord-phone'])) {
-                    echo $this->job['sc-coord-phone'];
-                }*/
+                value="<?php
+                if(isset($this->coordinatorPhone)) {
+                    echo $this->coordinatorPhone;
+                }
                 ?>"
         />
 
@@ -59,10 +59,10 @@
                 name="sc-coord-email"
                 id="sc-coord-email"
                 placeholder=""
-                <!--value="--><?php
-/*                if(isset($this->job['sc-coord-email'])) {
-                    echo $this->job['sc-coord-email'];
-                }*/
+                value="<?php
+                if(isset($this->coordinatorEmail)) {
+                    echo $this->coordinatorEmail;
+                }
                 ?>"
         />
 

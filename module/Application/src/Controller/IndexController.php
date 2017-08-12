@@ -22,7 +22,9 @@ class IndexController extends AbstractActionController
         $sessionContainer = new Container('schedulerContainer', $sessionManager);
 
         $sessionData = [];
-        $sessionData['username'] = $sessionContainer->username;
+        $sessionData['coordinatorName'] = $sessionContainer->coordinatorName;
+        $sessionData['coordinatorEmail'] = $sessionContainer->coordinatorEmail;
+        $sessionData['coordinatorPhone'] = $sessionContainer->coordinatorPhone;
 
         /*$post = $this->getRequest()->getPost();
         $job = [];

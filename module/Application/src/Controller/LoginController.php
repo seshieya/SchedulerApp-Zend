@@ -67,6 +67,8 @@ class LoginController extends AbstractActionController
             $sessionContainer->coordinatorEmail = $empData['email'];
             $sessionContainer->coordinatorPhone = $empData['phone'];
 
+            //unset($sessionContainer->username);
+
             $this->redirect()->toRoute('home');
 
 
