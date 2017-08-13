@@ -30,6 +30,10 @@ use Application\Model\ScheduleRow;
 class PdfController extends AbstractActionController
 {
 
+    private $scheduleTable;
+    private $scheduleRowTable;
+    private $jobTable;
+
     const ROW_ID_START = 1;
 
     public function __construct()
@@ -54,11 +58,23 @@ class PdfController extends AbstractActionController
 
     public function previewAction()
     {
+        $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
+
+        $schedData = [];
+
+        $scheduleModel = new Schedule();
+        $scheduleModel
+            ->setJobNumber($scheduleInfo['job_id'])
+            ->setVersionNum($scheduleInfo['version_num'])
+            ->setModifiedDate($scheduleInfo['modified_date'])
+            ->setJobAddress($scheduleInfo['address'])
+            ->setJobAccess($scheduleInfo['access']);
+
+        $schedData['schedInfo'] = $scheduleModel->getArrayForView();
+
+
         $schedId = $this->scheduleTable->getLastScheduleId();
         $schedRows = $this->scheduleRowTable->getScheduleRows(29);
-
-        $rowData = [];
-        $rowNum = PdfController::ROW_ID_START;
 
         $scheduleRowModel = new ScheduleRow();
         foreach($schedRows as $rows) {
@@ -70,11 +86,10 @@ class PdfController extends AbstractActionController
                 ->setDayIn($rows['day_in'])
                 ->setDayOut($rows['day_out'])
                 ->setComments($rows['comments']);
-            $rowData['rows'][] = $scheduleRowModel->getArrayForView();
-            $rowNum++;
+            $schedData['rows'][] = $scheduleRowModel->getArrayForView();
         }
 
-        return new ViewModel($rowData);
+        return new ViewModel($schedData);
     }
 
 

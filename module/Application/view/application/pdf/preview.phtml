@@ -1,6 +1,9 @@
+<!-- pvw means preview -->
+<div id="pvw">
+
 <h1>Restoration Schedule</h1>
 
-<table id="sc-table-job">
+<table id="pvw-table-job">
     <thead>
     <tr>
         <th>Job Number</th>
@@ -11,9 +14,9 @@
     <tbody>
     <?php
     echo "<tr>
-            <td><input type='text' name='sc-job-number' id='sc-job-number' value='" . $this->job['sc-job-number'] . "' /></td>
-            <td><input type='text' name='sc-job-address' id='sc-job-address' value='" . $this->job['sc-job-address'] . "' /></td>
-            <td><textarea name='sc-job-access' id='sc-job-access'>" . $this->job['sc-job-access'] . "</textarea></td>
+            <td>" . $this->schedInfo['job_id'] . "</td>
+            <td>" . $this->schedInfo['address'] . "</td>
+            <td>" . $this->schedInfo['access'] . "</td>
           </tr>";
     ?>
     </tbody>
@@ -21,13 +24,13 @@
 </table>
 
 
-<table id="sc-table-row">
+<table id="pvw-table-row">
     <tr>
-        <th>Type of Work</th>
-        <th>Trade</th>
-        <th>Date In</th>
-        <th>Date Out</th>
-        <th>Comments</th>
+        <th class="pvw-row-narrow">Type of Work</th>
+        <th class="pvw-row-narrow">Trade</th>
+        <th class="pvw-row-narrow">Date In</th>
+        <th class="pvw-row-narrow">Date Out</th>
+        <th class="pvw-row-wide">Comments</th>
     </tr>
 
     <?php
@@ -35,8 +38,8 @@
     $rowNum = 1;
     foreach($this->rows as $rows) {
         echo "<tr>
-                      <td>" . $rows['trade_name'] . "</td>
                       <td>" . $rows['type_of_work'] . "</td>
+                      <td>" . $rows['trade_name'] . "</td>
                       <td>" . $rows['day_in'] . "</td>
                       <td>" . $rows['day_out'] . "</td>
                       <td>" . $rows['comments'] . "</td>
@@ -49,6 +52,9 @@
 
 
 </table>
+
+</div>
+
 
 
 

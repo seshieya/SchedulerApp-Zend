@@ -2,6 +2,8 @@
 
 namespace Application\Database;
 
+use Zend\Db\Sql\Select;
+
 class ScheduleTable extends BaseTable
 {
     public function insertScheduleData(array $data) {
@@ -60,6 +62,32 @@ class ScheduleTable extends BaseTable
         return $row['sched_id'];
     }
 
+    public function getScheduleInfo($jobId) {
+        $select = $this->sql
+            ->select()
+            ->from('schedule')
+            ->join('job', 'job.job_id = schedule.job_id', Select::SQL_STAR, Select::JOIN_LEFT)
+            ->where('job.job_id = '. $jobId);
+        ;
+
+        $query = $this->sql->buildSqlString($select);
+
+        return $this->adapter->query($query)->execute()->current();
+    }
+
+    /*public function getScheduleInfo($jobId) {
+        $select = $this->sql
+            ->select()
+            ->from('schedule')
+            ->join('job', 'job.job_id = schedule.job_id', Select::SQL_STAR, Select::JOIN_LEFT)
+            ->join('schedule_row', 'schedule_row.sched_id = schedule.sched_id', Select::SQL_STAR, Select::JOIN_LEFT)
+            ->where('job.job_id = '. $jobId);
+        ;
+
+        $query = $this->sql->buildSqlString($select);
+
+        return $this->adapter->query($query)->execute();
+    }*/
 
 
 

@@ -15,7 +15,18 @@ class Schedule implements ArrayForDatabase
 
     private $jobNumber;
     private $versionNum;
-    //private $modifiedDate;
+    private $modifiedDate;
+    private $jobAddress;
+    private $jobAccess;
+
+    public function reset() {
+        $this->jobNumber = 0;
+        $this->versionNum = 0;
+        $this->modifiedDate = '';
+        $this->jobAddress = '';
+        $this->jobAccess = '';
+    }
+
 
     /**
      * @return mixed
@@ -54,25 +65,73 @@ class Schedule implements ArrayForDatabase
     /**
      * @return mixed
      */
-    /*public function getModifiedDate()
+    public function getModifiedDate()
     {
         return $this->modifiedDate;
-    }*/
+    }
 
     /**
      * @param mixed $modifiedDate
      */
-    /*public function setModifiedDate($modifiedDate)
+    public function setModifiedDate($modifiedDate)
     {
         $this->modifiedDate = $modifiedDate;
         return $this;
-    }*/
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getJobAddress()
+    {
+        return $this->jobAddress;
+    }
+
+    /**
+     * @param mixed $jobAddress
+     */
+    public function setJobAddress($jobAddress)
+    {
+        $this->jobAddress = $jobAddress;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJobAccess()
+    {
+        return $this->jobAccess;
+    }
+
+    /**
+     * @param mixed $jobAccess
+     */
+    public function setJobAccess($jobAccess)
+    {
+        $this->jobAccess = $jobAccess;
+        return $this;
+    }
+
+
+
 
 
     public function getArrayForDatabase() {
         return [
             'job_id' => $this->getJobNumber(),
             'version_num' => $this->getVersionNum()
+        ];
+    }
+
+    public function getArrayForView() {
+        return [
+            'job_id' => $this->getJobNumber(),
+            'version_num' => $this->getVersionNum(),
+            'modified_date' => $this->getModifiedDate(),
+            'address' => $this->getJobAddress(),
+            'access' => $this->getJobAccess()
         ];
     }
 }
