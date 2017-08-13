@@ -51,8 +51,7 @@ $(function(){
                 <label for="sc-row' + rowNum + '-comments">Comments:</label>\
                 <textarea name="sc-row' + rowNum + '-comments"\
                           id="sc-row' + rowNum + '-comments"\
-                          class="sc-rows-comments"\
-                          placeholder=""></textarea>\
+                          class="sc-rows-comments"></textarea>\
               </div>\
             </div>';
 
