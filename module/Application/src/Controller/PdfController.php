@@ -48,9 +48,23 @@ class PdfController extends AbstractActionController
 
     public function downloadAction()
     {
+
+        $html = $this->getRequest()->getPost('pvw-pdf');
+
+        //fix the line breaks for html output:
+        /*$searchOrder = ["\r\n", "\n", "\r"];
+        $replace = '';
+        $html = str_replace($searchOrder, $replace, $post);*/
+
+        //$html = file_get_contents('module/Application/view/application/pdf/preview.phtml');
+
+
         //this outputs to the browser. check how to get it to output as a download.
         $mpdf = new mPDF();
-        $mpdf->WriteHTML('<h1>Hello world!</h1>');
+        $stylesheet = file_get_contents('public/css/pvw-pdf.css');
+
+        $mpdf->WriteHtml($stylesheet, 1);
+        $mpdf->WriteHTML($html, 2);
         $mpdf->Output();
 
         return new ViewModel();
@@ -70,6 +84,7 @@ class PdfController extends AbstractActionController
             ->setJobAddress($scheduleInfo['address'])
             ->setJobAccess($scheduleInfo['access']);
 
+
         $schedData['schedInfo'] = $scheduleModel->getArrayForView();
 
 
@@ -88,6 +103,10 @@ class PdfController extends AbstractActionController
                 ->setComments($rows['comments']);
             $schedData['rows'][] = $scheduleRowModel->getArrayForView();
         }
+
+        /*$sessionManager = new SessionManager();
+        $sessionContainer = new Container('schedulerContainer', $sessionManager);
+        $sessionContainer->schedData = $schedData;*/
 
         return new ViewModel($schedData);
     }

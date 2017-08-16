@@ -1,3 +1,7 @@
+<?php
+ob_start();
+?>
+
 <!-- pvw means preview -->
 <div id="pvw">
 
@@ -54,6 +58,22 @@
 </table>
 
 </div>
+
+<?php
+$contents = ob_get_contents();
+ob_end_clean();
+
+echo $contents;
+?>
+
+<form action="/schedule/download" method="post">
+    <input type="hidden"
+           id="pvw-pdf"
+           name="pvw-pdf"
+           value='<?php echo $contents; ?>' />
+    <input type="submit"
+           value="Download as PDF" />
+</form>
 
 
 

@@ -96,7 +96,7 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 	border: 1px solid black;
 	/*letter size paper is 612px W by 792 px H*/
 	max-width: 800px;
-	height: 1000px;
+	/*height: 1000px;*/
 	margin-left: auto;
 	margin-right: auto;
 
@@ -115,7 +115,7 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 }
 
 #pvw-table-job *, #pvw-table-row * {
-	border: 1px solid black;
+	border-size: 1px solid black;
 }
 
 #pvw-table-job td, #pvw-table-job th, #pvw-table-row td, #pvw-table-row th {
