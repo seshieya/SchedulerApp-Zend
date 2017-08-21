@@ -24,4 +24,18 @@ class ScheduleRowTable extends BaseTable
 
         return $this->adapter->query($query)->execute();
     }
+
+    public function getTradeInfo($schedId) {
+        $select = $this->sql
+            ->select()
+            ->columns(['trade_name', 'trade_email'])
+            ->from('schedule_row')
+            ->where('sched_id = ' . $schedId);
+
+        $query = $this->sql->buildSqlString($select);
+
+        return $this->adapter->query($query)->execute();
+    }
+
+
 }

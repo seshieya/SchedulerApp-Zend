@@ -93,7 +93,7 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 
 #pvw {
 	text-align: center;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	/*letter size paper is 612px W by 792 px H*/
 	max-width: 800px;
 	/*height: 1000px;*/
@@ -115,7 +115,7 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 }
 
 #pvw-table-job *, #pvw-table-row * {
-	border-size: 1px solid black;
+	border: 1px solid black;
 }
 
 #pvw-table-job td, #pvw-table-job th, #pvw-table-row td, #pvw-table-row th {
@@ -131,4 +131,27 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 }
 .pvw-row-narrow {
 	width: 15%;
+}
+
+
+
+/* Email Draft
+==========================================*/
+
+#em-message {
+	width: 600px;
+	height: 100px;
+}
+
+
+#edraft {
+	border: 1px solid black;
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px;
+}
+
+#edraft-message {
+	color: blue;
 }

@@ -54,7 +54,6 @@ ob_start();
 
     ?>
 
-
 </table>
 
 </div>
@@ -64,6 +63,68 @@ $contents = ob_get_contents();
 ob_end_clean();
 
 echo $contents;
+
+ob_start();
+?>
+
+<!-- pvw means preview -->
+<div id="pvw">
+
+    <h1>Restoration Schedule</h1>
+
+    <table id="pvw-table-job">
+        <thead>
+        <tr>
+            <th>Job Number</th>
+            <th>Address</th>
+            <th>Access</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        echo "<tr>
+            <td>" . $this->schedInfo['job_id'] . "</td>
+            <td>" . $this->schedInfo['address'] . "</td>
+            <td>" . $this->schedInfo['access'] . "</td>
+          </tr>";
+        ?>
+        </tbody>
+
+    </table>
+
+
+    <table id="pvw-table-row">
+        <tr>
+            <th class="pvw-row-narrow">Type of Work</th>
+            <th class="pvw-row-narrow">Date In</th>
+            <th class="pvw-row-narrow">Date Out</th>
+            <th class="pvw-row-wide">Comments</th>
+        </tr>
+
+        <?php
+
+        $rowNum = 1;
+        foreach($this->rows as $rows) {
+            echo "<tr>
+                      <td>" . $rows['type_of_work'] . "</td>
+                      <td>" . $rows['day_in'] . "</td>
+                      <td>" . $rows['day_out'] . "</td>
+                      <td>" . $rows['comments'] . "</td>
+                 </tr>";
+
+            $rowNum++;
+        }
+
+        ?>
+
+
+    </table>
+
+</div>
+
+<?php
+$contentsWithoutTrade = ob_get_contents();
+ob_end_clean();
 ?>
 
 <form action="/schedule/download" method="post">
@@ -72,8 +133,43 @@ echo $contents;
            name="pvw-pdf"
            value='<?php echo $contents; ?>' />
     <input type="submit"
-           value="Download as PDF" />
+           value="Download as PDF"
+           class="btn btn-default"    />
+
 </form>
+
+<form action="/schedule/download" method="post">
+    <input type="hidden"
+           id="pvw-pdf"
+           name="pvw-pdf"
+           value='<?php echo $contentsWithoutTrade; ?>' />
+    <input type="submit"
+           value="Download as PDF without Trade Names"
+           class="btn btn-default"    />
+
+</form>
+
+<form action="/schedule/emaildraft" method="post">
+    <input type="hidden"
+           id="email-sched-trade"
+           name="email-sched-trade"
+           value='<?php echo $contents; ?>' />
+    <input type="submit"
+           value="Email to Trades"
+           class="btn btn-default"    />
+
+</form>
+
+<!--<a href="/schedule/emaildraft" class="btn btn-default" role="button">Email to Trades</a>-->
+
+
+
+
+
+
+
+
+
 
 
 

@@ -65,13 +65,14 @@ class PdfController extends AbstractActionController
 
         $mpdf->WriteHtml($stylesheet, 1);
         $mpdf->WriteHTML($html, 2);
-        $mpdf->Output();
+        $mpdf->Output('schedule.pdf', 'D');
 
         return new ViewModel();
     }
 
     public function previewAction()
     {
+        //need to figure out how to get a custom job number here! maybe add a if there is POST request statement?
         $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
 
         $schedData = [];
@@ -88,8 +89,8 @@ class PdfController extends AbstractActionController
         $schedData['schedInfo'] = $scheduleModel->getArrayForView();
 
 
-        $schedId = $this->scheduleTable->getLastScheduleId();
-        $schedRows = $this->scheduleRowTable->getScheduleRows(29);
+        $schedId = $scheduleInfo['sched_id'];
+        $schedRows = $this->scheduleRowTable->getScheduleRows($schedId);
 
         $scheduleRowModel = new ScheduleRow();
         foreach($schedRows as $rows) {

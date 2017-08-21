@@ -216,4 +216,11 @@ class ScheduleRow implements ArrayForDatabase
         ];
     }
 
+    public function getTradeDataForView() {
+        return [
+            'trade_name' => $this->getTradeName(),
+            'trade_email' => $this->getTradeEmail()
+        ];
+    }
+
 }

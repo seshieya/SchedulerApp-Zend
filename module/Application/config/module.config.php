@@ -104,6 +104,37 @@ return [
                     ],
                 ],
             ],
+            'emailDraft' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/emaildraft',
+                    'defaults' => [
+                        'controller' => Controller\EmailController::class,
+                        'action'     => 'draft',
+                    ],
+                ],
+            ],
+            'emailSchedule' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/email',
+                    'defaults' => [
+                        'controller' => Controller\EmailController::class,
+                        'action'     => 'email',
+                    ],
+                ],
+            ],
+            'emailTradeTemp' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/trade',
+                    'defaults' => [
+                        'controller' => Controller\EmailController::class,
+                        'action'     => 'trade',
+                    ],
+                ],
+            ],
+
 //            'application' => [
 //                'type'    => Segment::class,
 //                'options' => [
@@ -122,6 +153,7 @@ return [
             Controller\ScheduleController::class => InvokableFactory::class,
             Controller\LoginController::class => InvokableFactory::class,
             Controller\PdfController::class => InvokableFactory::class,
+            Controller\EmailController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
