@@ -1,5 +1,11 @@
 # SchedulerApp-Zend (Scheduler Web Application for Trades/Contractors) - IN PROGRESS 
 
+Project is a work in progress therefore code is rough, and not thoroughly commented. It is updated frequently.
+
+
+## Summary:
+
+
 My current job involves manually creating work schedules in Microsoft Word. Application will make schedule creation easy and more automated. Schedules can be automatically emailed to trades/contractors at a time specified by the user.
 
 ## Current Highlights:
