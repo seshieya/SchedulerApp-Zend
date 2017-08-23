@@ -27,10 +27,15 @@ class LoginController extends AbstractActionController
 {
     private $employeeTable;
     private $loginTable;
+    private $sessionManager;
+    private $sessionContainer;
 
     public function __construct() {
         $this->employeeTable = new EmployeeTable('scheduler', 'root', '');
         $this->loginTable = new LoginTable('scheduler', 'root', '');
+        $this->sessionManager = new SessionManager();
+        $this->sessionContainer = new Container('schedulerContainer', $this->sessionManager);
+
     }
 
     public function loginAction()
@@ -48,8 +53,8 @@ class LoginController extends AbstractActionController
 
         if($bcrypt->verify($password, $passwordHashFromDb)) {
 
-            $sessionManager = new SessionManager();
-            $sessionContainer = new Container('schedulerContainer', $sessionManager);
+//            $sessionManager = new SessionManager();
+//            $sessionContainer = new Container('schedulerContainer', $sessionManager);
 
             //get employee details from database:
             $empId = $this->loginTable->getEmpId($username);
@@ -63,9 +68,9 @@ class LoginController extends AbstractActionController
                 ->setPhone($empDetails['phone']);
             $empData = $employeeModel->getArrayForView();
 
-            $sessionContainer->coordinatorName = $empData['full_name'];
-            $sessionContainer->coordinatorEmail = $empData['email'];
-            $sessionContainer->coordinatorPhone = $empData['phone'];
+            $this->sessionContainer->coordinatorName = $empData['full_name'];
+            $this->sessionContainer->coordinatorEmail = $empData['email'];
+            $this->sessionContainer->coordinatorPhone = $empData['phone'];
 
             //unset($sessionContainer->username);
 
@@ -93,6 +98,11 @@ class LoginController extends AbstractActionController
         }
 
         return new ViewModel();
+    }
+
+    public function logoutAction()
+    {
+        $this->sessionManager->destroy();
     }
 
     public function signupAction()
