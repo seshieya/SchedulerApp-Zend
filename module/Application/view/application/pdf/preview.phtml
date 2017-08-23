@@ -2,6 +2,8 @@
 ob_start();
 ?>
 
+<!--CHANGE THIS PART TO USING JAVASCRIPT??!!!!-->
+
 <!-- pvw means preview -->
 <div id="pvw">
 
@@ -151,8 +153,8 @@ ob_end_clean();
 
 <form action="/schedule/emaildraft" method="post">
     <input type="hidden"
-           id="email-sched-trade"
-           name="email-sched-trade"
+           id="em-html-email"
+           name="em-html-email"
            value='<?php echo $contents; ?>' />
     <input type="submit"
            value="Email to Trades"

@@ -1,8 +1,7 @@
 <h1>Email Draft</h1>
 
 <!-- em in the id stands for email -->
-
-<form action="/schedule/email" method="post">
+<form action="/schedule/email" method="post" id="em-form">
     <label for="em-message">Message:</label>
     <textarea id="em-message"
               placeholder="Add any important notes here that you would like to send with the email."></textarea>
@@ -42,7 +41,7 @@
     <div id="edraft">
 
         <?php
-        ob_start();
+/*        ob_start();*/
 
         $embeddedStyle = '<head>
             <style>
@@ -155,39 +154,27 @@
 
         <!-- edraft in the id stands for email draft -->
 
-        <h3>Trade Name,</h3>
+        <h3 id="edraft-trade-name">&lt;Trade Name&gt;,</h3>
 
         <p>Below is the schedule for <?php echo $this->jobAddress ?>. Belfor job number <?php echo $this->jobId ?>.</p>
 
         <p>Please confirm your attendance as noted in the below schedule, by clicking the confirm button:</p>
 
 
-        <p><a href="http://localhost:8000/schedule/confirm?trade=&jobnumber=" id="em-confirm-button" class="btn btn-primary" role="button">CONFIRM ATTENDANCE</a>
+        <p><a href="<?php echo "http://localhost:8000/schedule/confirm?jobnumber=" . $this->jobId .  "&trade=&ver="; ?>" id="em-confirm-button" class="btn btn-primary" role="button">CONFIRM ATTENDANCE</a>
         </p>
 
         <hr />
 
-        <script>
-            var message = document.getElementById("em-message");
-
-            var emailMessage = document.createElement("p");
-            emailMessage.id = "edraft-message";
-
-            document.getElementById("edraft").appendChild(emailMessage);
-
-            message.addEventListener("keyup", function() {
-                document.getElementById("edraft-message").innerHTML = this.value;
-            })
-
-        </script>
+        <p id="edraft-message"></p>
 
         <?php
         echo $this->htmlSchedule;
 
-        $htmlEmail = ob_get_contents();
+        /*$htmlEmail = ob_get_contents();
         ob_end_clean();
 
-        echo $htmlEmail;
+        echo $htmlEmail;*/
         ?>
 
     </div>
@@ -195,8 +182,143 @@
     <input type="hidden"
            id="em-html-email"
            name="em-html-email"
-           value='<?php echo $embeddedStyle . $htmlEmail; ?>' />
+            />
     <input type="submit"
            value="Send email"
+           id="em-submit"
            class="btn btn-success" />
 </form>
+
+<script>
+
+    window.onload = function(){
+
+        var message = document.getElementById("em-message");
+
+        /*var emailMessage = document.createElement("p");
+         emailMessage.id = "edraft-message";
+
+         document.getElementById("edraft").appendChild(emailMessage);*/
+
+        message.addEventListener("keyup", function () {
+            document.getElementById("edraft-message").innerHTML = this.value;
+        });
+
+        var embeddedStyle = "<head>\
+                <style>\
+            #edraft-message {\
+                color: blue;\
+            }\
+            \
+            #em-confirm-button {\
+                text-decoration: none;\
+            }\
+\
+            #pvw {\
+                text-align: center;\
+                /*border: 1px solid black;*/\
+                max-width: 800px;\
+                /*height: 1000px;*/\
+                margin-left: auto;\
+                margin-right: auto;\
+            }\
+            \
+            #pvw h1 {\
+                text-decoration: underline;\
+                margin-bottom: 30px;\
+            }\
+            \
+            #pvw table {\
+                text-align: left;\
+                margin-left: auto;\
+                margin-right: auto;\
+                width: 100%;\
+            }\
+            \
+            /*#pvw-table-job *, #pvw-table-row * {\
+             border: 1px solid black;\
+             }*/\
+\
+            table, td, th, tr {\
+                border-collapse: collapse;\
+                border: 1px solid black;\
+            }\
+\
+            #pvw-table-job td, #pvw-table-job th, #pvw-table-row td, #pvw-table-row th {\
+                padding: 5px;\
+\
+            }\
+\
+            #pvw-table-job {\
+                margin-bottom: 30px;\
+            }\
+\
+            .pvw-row-wide {\
+                width: 40%;\
+            }\
+            .pvw-row-narrow {\
+                width: 15%;\
+            }\
+\
+            .btn {\
+                display: inline-block;\
+                padding: 6px 12px;\
+                margin-bottom: 0;\
+                font-size: 14px;\
+                font-weight: normal;\
+                line-height: 1.42857143;\
+                text-align: center;\
+                white-space: nowrap;\
+                vertical-align: middle;\
+                -ms-touch-action: manipulation;\
+                touch-action: manipulation;\
+                cursor: pointer;\
+                -webkit-user-select: none;\
+                -moz-user-select: none;\
+                -ms-user-select: none;\
+                user-select: none;\
+                background-image: none;\
+                border: 1px solid transparent;\
+                border-radius: 4px;\
+            }\
+                    \
+            .btn-primary {\
+                color: #fff;\
+                background-color: #337ab7;\
+                border-color: #2e6da4;\
+            }\
+            .btn-primary:focus,\
+            .btn-primary.focus {\
+                color: #fff;\
+                background-color: #286090;\
+                border-color: #122b40;\
+            }\
+            .btn-primary:hover {\
+                color: #fff;\
+                background-color: #286090;\
+                border-color: #204d74;\
+            }\
+            .btn-primary:active,\
+            .btn-primary.active,\
+            .open > .dropdown-toggle.btn-primary {\
+                color: #fff;\
+                background-color: #286090;\
+                border-color: #204d74;\
+            }\
+                    \
+            </style>\
+            </head>";
+
+        var htmlMarkup = "";
+        document.getElementById("em-submit").addEventListener("click", function (event) {
+            event.preventDefault();
+            htmlMarkup = document.getElementById("edraft").innerHTML;
+            console.log(htmlMarkup);
+            document.getElementById("em-html-email").value = embeddedStyle + htmlMarkup;
+            document.getElementById("em-form").submit();
+        });
+
+
+
+    }
+</script>

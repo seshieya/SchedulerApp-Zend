@@ -55,7 +55,7 @@ class EmailController extends AbstractActionController
 
     public function draftAction()
     {
-        $htmlSchedule = $this->getRequest()->getPost('email-sched-trade');
+        $htmlSchedule = $this->getRequest()->getPost('em-html-email');
 
         $data = [];
 
@@ -87,15 +87,67 @@ class EmailController extends AbstractActionController
         $post = $this->getRequest()->getPost();
         $htmlMarkup = $this->getRequest()->getPost('em-html-email');
 
-        $emailList = [];
+        $finalMarkup = [];
+        $tradeEmails = [];
+
+        foreach($post as $key => $value) {
+            if(strpos($key, 'em-trade-name') !== false && strlen($value) !== 0) {
+                $editedMarkup1 = str_replace("&lt;Trade Name&gt;", $value, $htmlMarkup);
+                $editedMarkup2 = str_replace("&amp;trade=&amp;ver=", "&trade=" . $value, $editedMarkup1);
+                $finalMarkup[] = $editedMarkup2;
+            }
+            else if(strpos($key, 'em-trade-email') !== false && strlen($value) !== 0) {
+                $tradeEmails[] = $value;
+            }
+
+        }
+
+        $finalEmailData = array_combine($tradeEmails, $finalMarkup);
+
+        $transport = new SmtpTransport();
+        $options   = new SmtpOptions([
+            'name' => 'gmail',
+            'host' => 'smtp.gmail.com',
+            'port' => 587,
+            'connection_class'  => 'login',
+            'connection_config' => [
+                'username' => 'awu.scheduler@gmail.com',
+                'password' => 'iloveprogramming',
+                'ssl' => 'tls'
+            ],
+        ]);
+
+        foreach($finalEmailData as $emailKey => $markupValue) {
+            $html = new MimePart($markupValue);
+            $html->type     = Mime::TYPE_HTML;
+            $html->charset  = 'utf-8';
+            $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+
+            $body = new MimeMessage();
+            $body->setParts([$html]);
+
+
+            $message = new Message();
+
+            $message->addFrom('awu.scheduler@gmail.com', 'Angela Wu');
+            $message->addTo($emailKey);
+            $message->setSubject('Schedule for Job 1076-19000-07 / Citadel Drive');
+            $message->setBody($body);
+
+            $transport->setOptions($options);
+            $transport->send($message);
+
+        }
+
+        /*$emailList = [];
 
         foreach($post as $key => $value) {
             if(strpos($key, 'em-trade-email') !== false && strlen($value) !== 0) {
                 $emailList[] = $value;
             }
-        }
+        }*/
 
-        $html = new MimePart($htmlMarkup);
+        /*$html = new MimePart($htmlMarkup);
         $html->type     = Mime::TYPE_HTML;
         $html->charset  = 'utf-8';
         $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
@@ -108,7 +160,7 @@ class EmailController extends AbstractActionController
         $message->addFrom('awu.scheduler@gmail.com', 'Angela Wu');
         $message->addTo($emailList);
         $message->setSubject('Schedule for Job 1076-19000-07 / Citadel Drive');
-        $message->setBody($body);
+        $message->setBody($body);*/
 
         /*$contentTypeHeader = $message->getHeaders()->get('Content-Type');
         $contentTypeHeader->setType('multipart/related');*/
@@ -123,7 +175,7 @@ class EmailController extends AbstractActionController
 
 
 
-        $transport = new SmtpTransport();
+        /*$transport = new SmtpTransport();
         $options   = new SmtpOptions([
             'name' => 'gmail',
             'host' => 'smtp.gmail.com',
@@ -136,7 +188,7 @@ class EmailController extends AbstractActionController
             ],
         ]);
         $transport->setOptions($options);
-        $transport->send($message);
+        $transport->send($message);*/
 
         return new ViewModel();
     }
