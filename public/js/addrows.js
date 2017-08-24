@@ -69,12 +69,24 @@ $(function(){
 
 
 	//initialize first row in html document
-	$('#sc-rows-container').append(initializeRow());
+	$("#sc-rows-container").append(initializeRow());
 
 	//add rows in html document
-	$('#sc-addrows').click(function() {
+	$("#sc-addrows").click(function() {
 		$('#sc-rows-container').append(initializeRow());
 	});
+
+	//remove rows in html document
+    $("#sc-removerows").click(function() {
+        $(".sc-row-entry:last-of-type").remove();
+        if(rowNum > 1) {
+            rowNum--;
+            rowTotal -= 1;
+		}
+
+	});
+
+
 	// $(document).on("click", "#sc-addrows", function() {
 	// 	$("#sc-rows-container").append(initializeRow());
 	//	});
