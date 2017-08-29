@@ -31,6 +31,7 @@
             <th>Trade Email</th>
             <th>Date In</th>
             <th>Date Out</th>
+            <th>Days Needed</th>
             <th>Comments</th>
         </tr>
 
@@ -70,6 +71,12 @@
                                     value='" . $this->rowDayInDayOut[$rowNum . 'dayOut'] . "' 
                           />
                       </td>
+                      <td><input    type='text' 
+                                    name='sc-row" . $rowNum . "-days' 
+                                    id='sc-row" . $rowNum . "-days' 
+                                    value='" . $this->rowDaysNeeded['sc-row' . $rowNum . '-days'] . "' 
+                          />
+                      </td>
                       <td><textarea name='sc-row" . $rowNum . "-comments' 
                                     id='sc-row" . $rowNum . "-comments' 
                           >" . $this->rowOther['sc-row' . $rowNum . '-comments'] . "</textarea>
@@ -89,7 +96,9 @@
 
     </table>
 
-        <input type="submit" value="Save" />
+        <input type="submit"
+               value="Save"
+               class="btn btn-default" />
 
     </form>
 
