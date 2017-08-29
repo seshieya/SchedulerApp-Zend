@@ -193,8 +193,11 @@ class EmailController extends AbstractActionController
         return new ViewModel();
     }
 
-    public function tradeAction()
+    public function confirmAction()
     {
+        $tradeName = $this->getRequest()->getQuery('trade');
+        $jobId = $this->getRequest()->getQuery('job');
+
         /*$scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
 
         $schedData = [];
