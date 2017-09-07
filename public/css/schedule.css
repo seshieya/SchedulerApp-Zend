@@ -86,6 +86,10 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 	background-color: #ebf0ff;
 }
 
+#sc-table-row span {
+	border: none;
+}
+
 
 
 /* Schedule Preview
