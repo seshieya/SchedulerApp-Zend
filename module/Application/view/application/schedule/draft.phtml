@@ -62,13 +62,13 @@
                       <td><input    type='text' 
                                     name='sc-row" . $rowNum . "-dayIn'
                                     id='sc-row" . $rowNum . "-dayIn'
-                                    value='" . $this->rowDayInDayOut[$rowNum . 'dayIn'] . "' 
+                                    value='" . $this->rowDayInDayOut['sc-row' . $rowNum . '-dayIn'] . "' 
                           />
                       </td>
                       <td><input    type='text' 
                                     name='sc-row" . $rowNum . "-dayOut' 
                                     id='sc-row" . $rowNum . "-dayOut' 
-                                    value='" . $this->rowDayInDayOut[$rowNum . 'dayOut'] . "' 
+                                    value='" . $this->rowDayInDayOut['sc-row' . $rowNum . '-dayOut'] . "' 
                           />
                       </td>
                       <td><input    type='text' 
@@ -101,6 +101,131 @@
                class="btn btn-default" />
 
     </form>
+
+    <script>
+        //recalculate dates in schedule draft when "enter" key is pressed
+        $("input[id$='-days']").on("keydown", function(event){
+            console.log(event.which);
+            if(event.which === 13) {
+                event.preventDefault();
+
+                var id = this.id;
+                console.log(id);
+                var rowId = id.replace(/[^\d]/g, '');
+                var rowIdStart = rowId;
+                var selectedDaysNeeded = this.value;
+
+                console.log(rowId);
+                //console.log($("input[type='text']").attr("id"));
+                console.log(document.getElementById("sc-row1-dayIn").id);
+                console.log(document.getElementById("sc-row1-dayIn").value);
+
+
+
+                var daysInChange = [];
+                var daysOutChange = [];
+
+                //initiate daysNeededChange as Javascript object:
+                var daysNeededChange = {};
+
+                var selectedElementStartDate = document.getElementById("sc-row" + rowId + "-dayIn").value;
+
+                //get all days needed that are after the current selected element:
+                while(true) {
+                    if(!document.getElementById("sc-row" + rowId + "-dayIn") || !document.getElementById("sc-row" + rowId + "-dayOut")) {
+                        break;
+                    }
+                    daysInChange[document.getElementById("sc-row" + rowId + "-dayIn").id] = document.getElementById("sc-row" + rowId + "-dayIn").value;
+                    daysOutChange[document.getElementById("sc-row" + rowId + "-dayOut").id] = document.getElementById("sc-row" + rowId + "-dayOut").value;
+                    daysNeededChange[document.getElementById("sc-row" + rowId + "-days").id] = document.getElementById("sc-row" + rowId + "-days").value;
+                    rowId++;
+                }
+
+                console.log(daysInChange);
+                console.log(daysOutChange);
+                console.log(daysNeededChange);
+
+
+                //var selectedDayIn = document.getElementById("sc-row" + rowId + "-dayIn").value;
+                //var selectedDayOut = document.getElementById("sc-row" + rowId + "-dayOut").value;
+
+                /*console.log(selectedDayIn);
+                console.log(selectedDayOut);
+                console.log(selectedDaysNeeded);*/
+
+                /*var $value = $("sc-row1-dayIn").value;
+                $value = "hi";
+
+                console.log($value);*/
+
+
+                //convert daysNeededChange array to JSON:
+                var daysNeededJson = JSON.stringify(daysNeededChange);
+
+                console.log(daysNeededJson);
+
+
+                // then call a function to change the dates
+                updateDates (selectedElementStartDate, daysNeededJson, rowIdStart);
+
+                /*$.ajax({
+                    url: "/schedule/dates",
+                    type: "post",
+                    datatype: "json",
+                    data: {initialDayIn: selectedDayIn, initialDayOut: selectedDayOut, initialDaysNeeded: selectedDaysNeeded},
+
+                    success: function(updatedDates) {
+                        /!*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];
+                         $("sc-row" + rowId + "-dayOut").value = updatedDates["rowDayOut"];
+
+                         console.log(updatedDates["rowDayIn"]);
+                         console.log(updatedDates["rowDayOut"]);*!/
+
+
+
+                        $("#sc-row" + rowId + "-dayIn").val(updatedDates.finalDayIn);
+                        $("#sc-row" + rowId + "-dayOut").val(updatedDates.finalDayOut);
+
+
+                    }
+
+                });*/
+
+            }
+        });
+
+        function updateDates(startDate, daysNeeded, selectedRowId) {
+            $.ajax({
+                url: "/schedule/dates",
+                type: "post",
+                datatype: "json",
+                data: {selectedStartDate: startDate, followingDaysNeeded: daysNeeded, rowId: selectedRowId},
+
+                success: function(updatedDates) {
+                    /*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];
+                    $("sc-row" + rowId + "-dayOut").value = updatedDates["rowDayOut"];
+
+                    console.log(updatedDates["rowDayIn"]);
+                    console.log(updatedDates["rowDayOut"]);*/
+
+                   /* $("#sc-row" + rowId + "-dayIn").val(updatedDates.finalDayIn);
+                    $("#sc-row" + rowId + "-dayOut").val(updatedDates.finalDayOut);*/
+
+                   $.each(updatedDates, function(index, element) {
+                        $("#" + index).val(element);
+                   });
+
+                    /*$("#sc-row" + selectedRowId + "-dayIn").val(updatedDates.(sc-row + selectedRowId + -dayIn));
+                    $("#sc-row" + selectedRowId + "-dayOut").val(updatedDates.finalDayOut);*/
+
+
+                }
+
+            });
+        }
+
+
+    </script>
 
     <!--<form method="post" action="/">
         <input type="input"
