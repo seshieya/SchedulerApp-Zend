@@ -68,15 +68,15 @@ $(function(){
 	}
 
 
-	//initialize first row in html document
+	//initialize first row in schedule home
 	$("#sc-rows-container").append(initializeRow());
 
-	//add rows in html document
+	//add rows in schedule home
 	$("#sc-addrows").click(function() {
 		$('#sc-rows-container').append(initializeRow());
 	});
 
-	//remove rows in html document
+	//remove rows in schedule home
     $("#sc-removerows").click(function() {
         $(".sc-row-entry:last-of-type").remove();
         if(rowNum > 1) {
@@ -85,6 +85,12 @@ $(function(){
 		}
 
 	});
+
+
+
+
+
+
 
 
 	// $(document).on("click", "#sc-addrows", function() {
