@@ -30,9 +30,17 @@ class LoginController extends AbstractActionController
     private $sessionManager;
     private $sessionContainer;
 
-    public function __construct() {
-        $this->employeeTable = new EmployeeTable('scheduler', 'root', '');
-        $this->loginTable = new LoginTable('scheduler', 'root', '');
+    public function __construct(EmployeeTable $employeeTable, LoginTable $loginTable)
+    {
+
+        $this->employeeTable = $employeeTable;
+        $this->loginTable = $loginTable;
+
+
+        /*$this->employeeTable = new EmployeeTable('scheduler', 'root', '');
+        $this->loginTable = new LoginTable('scheduler', 'root', '');*/
+
+
         $this->sessionManager = new SessionManager();
         $this->sessionContainer = new Container('schedulerContainer', $this->sessionManager);
 

@@ -43,14 +43,17 @@ class EmailController extends AbstractActionController
 
     const ROW_ID_START = 1;
 
-    public function __construct()
+    public function __construct(ScheduleTable $scheduleTable, ScheduleRowTable $scheduleRowTable, JobTable $jobTable)
     {
+        $this->scheduleTable = $scheduleTable;
+        $this->scheduleRowTable = $scheduleRowTable;
+        $this->jobTable = $jobTable;
 
         //NEED TO PUT THESE SETTINGS INTO THE MODULE CONFIG LIKE WHAT GARY SHOWED.
 
-        $this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
+        /*$this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
         $this->scheduleRowTable = new ScheduleRowTable('scheduler', 'root', '');
-        $this->jobTable = new JobTable('scheduler', 'root', '');
+        $this->jobTable = new JobTable('scheduler', 'root', '');*/
     }
 
     public function draftAction()

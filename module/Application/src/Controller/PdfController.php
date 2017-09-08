@@ -30,9 +30,9 @@ use Application\Model\ScheduleRow;
 class PdfController extends AbstractActionController
 {
 
-    private $scheduleTable;
+    /*private $scheduleTable;
     private $scheduleRowTable;
-    private $jobTable;
+    private $jobTable;*/
 
     const ROW_ID_START = 1;
 
@@ -41,9 +41,9 @@ class PdfController extends AbstractActionController
 
         //NEED TO PUT THESE SETTINGS INTO THE MODULE CONFIG LIKE WHAT GARY SHOWED.
 
-        $this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
+        /*$this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
         $this->scheduleRowTable = new ScheduleRowTable('scheduler', 'root', '');
-        $this->jobTable = new JobTable('scheduler', 'root', '');
+        $this->jobTable = new JobTable('scheduler', 'root', '');*/
     }
 
     public function downloadAction()
@@ -70,7 +70,7 @@ class PdfController extends AbstractActionController
         return new ViewModel();
     }
 
-    public function previewAction()
+    /*public function previewAction()
     {
         //need to figure out how to get a custom job number here! maybe add a if there is POST request statement?
         $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
@@ -107,10 +107,10 @@ class PdfController extends AbstractActionController
 
         /*$sessionManager = new SessionManager();
         $sessionContainer = new Container('schedulerContainer', $sessionManager);
-        $sessionContainer->schedData = $schedData;*/
+        $sessionContainer->schedData = $schedData;
 
         return new ViewModel($schedData);
-    }
+    }*/
 
 
 

@@ -47,26 +47,33 @@ class ScheduleController extends AbstractActionController
     private $scheduleRowTable;
     private $jobTable;
     private $employeeTable;
-    private $tradeTable;
+    //private $tradeTable;
 
-    private $table;
+    private $baseTable;
 
 //    protected $post;
 //    protected $startdate;
 
-    public function __construct()
+    public function __construct(ScheduleTable $scheduleTable, ScheduleRowTable $scheduleRowTable, JobTable $jobTable, EmployeeTable $employeeTable)
     {
+        $this->scheduleTable = $scheduleTable;
+        $this->scheduleRowTable = $scheduleRowTable;
+        $this->jobTable = $jobTable;
+        $this->employeeTable = $employeeTable;
+
+
         /*$this->post = $this->getRequest()->getPost();
         $this->startdate = $this->request->getPost('sc-startdate');*/
 
         //NEED TO PUT THESE SETTINGS INTO THE MODULE CONFIG LIKE WHAT GARY SHOWED.
 
 
-        $this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
+        /*$this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
         $this->scheduleRowTable = new ScheduleRowTable('scheduler', 'root', '');
         $this->jobTable = new JobTable('scheduler', 'root', '');
-        $this->employeeTable = new EmployeeTable('scheduler', 'root', '');
-        $this->tradeTable = new TradeTable('scheduler', 'root', '');
+        $this->employeeTable = new EmployeeTable('scheduler', 'root', '');*/
+        //$this->tradeTable = new TradeTable('scheduler', 'root', '');
+
     }
 
     public function draftAction()
@@ -222,8 +229,8 @@ class ScheduleController extends AbstractActionController
 
     public function datesAction()
     {
-        $daysIn = $this->getRequest()->getPost('initialDaysIn');
-        $daysOut = $this->getRequest()->getPost('initialDaysOut');
+        //$daysIn = $this->getRequest()->getPost('initialDaysIn');
+        //$daysOut = $this->getRequest()->getPost('initialDaysOut');
 
 
         $followingDaysNeeded = $this->getRequest()->getPost('followingDaysNeeded');
@@ -238,14 +245,57 @@ class ScheduleController extends AbstractActionController
 
 
 
-        $data['finalDayIn'] = 'hi';
-        $data['finalDayOut'] = 'bye';
+        //$data['finalDayIn'] = 'hi';
+        //$data['finalDayOut'] = 'bye';
 
         //$data = 'hi';
 
         //echo $data;
 
         return new JsonModel($data);
+    }
+
+
+    public function previewAction()
+    {
+        //need to figure out how to get a custom job number here! maybe add a if there is POST request statement?
+        $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
+
+        $schedData = [];
+
+        $scheduleModel = new Schedule();
+        $scheduleModel
+            ->setJobNumber($scheduleInfo['job_id'])
+            ->setVersionNum($scheduleInfo['version_num'])
+            ->setModifiedDate($scheduleInfo['modified_date'])
+            ->setJobAddress($scheduleInfo['address'])
+            ->setJobAccess($scheduleInfo['access']);
+
+
+        $schedData['schedInfo'] = $scheduleModel->getArrayForView();
+
+
+        $schedId = $scheduleInfo['sched_id'];
+        $schedRows = $this->scheduleRowTable->getScheduleRows($schedId);
+
+        $scheduleRowModel = new ScheduleRow();
+        foreach($schedRows as $rows) {
+            $scheduleRowModel->reset();
+
+            $scheduleRowModel
+                ->setTradeName($rows['trade_name'])
+                ->setTypeOfWork($rows['type_of_work'])
+                ->setDayIn($rows['day_in'])
+                ->setDayOut($rows['day_out'])
+                ->setComments($rows['comments']);
+            $schedData['rows'][] = $scheduleRowModel->getArrayForView();
+        }
+
+        /*$sessionManager = new SessionManager();
+        $sessionContainer = new Container('schedulerContainer', $sessionManager);
+        $sessionContainer->schedData = $schedData;*/
+
+        return new ViewModel($schedData);
     }
 
 

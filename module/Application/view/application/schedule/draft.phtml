@@ -122,8 +122,8 @@
 
 
 
-                var daysInChange = [];
-                var daysOutChange = [];
+                //var daysInChange = [];
+                //var daysOutChange = [];
 
                 //initiate daysNeededChange as Javascript object:
                 var daysNeededChange = {};
@@ -135,14 +135,14 @@
                     if(!document.getElementById("sc-row" + rowId + "-dayIn") || !document.getElementById("sc-row" + rowId + "-dayOut")) {
                         break;
                     }
-                    daysInChange[document.getElementById("sc-row" + rowId + "-dayIn").id] = document.getElementById("sc-row" + rowId + "-dayIn").value;
-                    daysOutChange[document.getElementById("sc-row" + rowId + "-dayOut").id] = document.getElementById("sc-row" + rowId + "-dayOut").value;
+                    //daysInChange[document.getElementById("sc-row" + rowId + "-dayIn").id] = document.getElementById("sc-row" + rowId + "-dayIn").value;
+                    //daysOutChange[document.getElementById("sc-row" + rowId + "-dayOut").id] = document.getElementById("sc-row" + rowId + "-dayOut").value;
                     daysNeededChange[document.getElementById("sc-row" + rowId + "-days").id] = document.getElementById("sc-row" + rowId + "-days").value;
                     rowId++;
                 }
 
-                console.log(daysInChange);
-                console.log(daysOutChange);
+                //console.log(daysInChange);
+                //console.log(daysOutChange);
                 console.log(daysNeededChange);
 
 
@@ -194,12 +194,12 @@
             }
         });
 
-        function updateDates(startDate, daysNeeded, selectedRowId) {
+        function updateDates(startDate, daysNeededInJson, selectedRowId) {
             $.ajax({
                 url: "/schedule/dates",
                 type: "post",
                 datatype: "json",
-                data: {selectedStartDate: startDate, followingDaysNeeded: daysNeeded, rowId: selectedRowId},
+                data: {selectedStartDate: startDate, followingDaysNeeded: daysNeededInJson, rowId: selectedRowId},
 
                 success: function(updatedDates) {
                     /*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];

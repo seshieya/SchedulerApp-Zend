@@ -11,6 +11,11 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
+
+use Application\Factories\ScheduleControllerFactory;
+use Application\Factories\EmailControllerFactory;
+use Application\Factories\LoginControllerFactory;
+
 return [
     'router' => [
         'routes' => [
@@ -51,6 +56,16 @@ return [
                     'defaults' => [
                         'controller' => Controller\ScheduleController::class,
                         'action'     => 'dates',
+                    ],
+                ],
+            ],
+            'previewBeforeDownload' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/preview',
+                    'defaults' => [
+                        'controller' => Controller\ScheduleController::class,
+                        'action'     => 'preview',
                     ],
                 ],
             ],
@@ -114,16 +129,6 @@ return [
                     ],
                 ],
             ],
-            'previewBeforeDownload' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route'    => '/schedule/preview',
-                    'defaults' => [
-                        'controller' => Controller\PdfController::class,
-                        'action'     => 'preview',
-                    ],
-                ],
-            ],
             'emailDraft' => [
                 'type' => Literal::class,
                 'options' => [
@@ -170,10 +175,10 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\ScheduleController::class => InvokableFactory::class,
-            Controller\LoginController::class => InvokableFactory::class,
+            Controller\ScheduleController::class => ScheduleControllerFactory::class,
+            Controller\LoginController::class => LoginControllerFactory::class,
             Controller\PdfController::class => InvokableFactory::class,
-            Controller\EmailController::class => InvokableFactory::class,
+            Controller\EmailController::class => EmailControllerFactory::class,
         ],
     ],
     'view_manager' => [
