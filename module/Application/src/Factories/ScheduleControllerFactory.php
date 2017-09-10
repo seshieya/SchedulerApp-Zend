@@ -6,14 +6,19 @@ use Application\Database\ScheduleTable;
 use Application\Database\ScheduleRowTable;
 use Application\Database\JobTable;
 use Application\Database\EmployeeTable;
+
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Session\SessionManager;
 
 final class ScheduleControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $db = $container->get('config')['db'];
+        $sessionManager = $container->get(SessionManager::class);
+        $sessionContainer = $container->get('SchedulerContainer');
+
 
         $scheduleTable = new ScheduleTable(
             $db['database'],
@@ -47,6 +52,6 @@ final class ScheduleControllerFactory implements FactoryInterface
             $db['driver'])
         ;
 
-        return new ScheduleController($scheduleTable, $scheduleRowTable, $jobTable, $employeeTable);
+        return new ScheduleController($scheduleTable, $scheduleRowTable, $jobTable, $employeeTable, $sessionManager, $sessionContainer);
     }
 }

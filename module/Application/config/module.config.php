@@ -29,6 +29,16 @@ return [
                     ],
                 ],
             ],
+            'create' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/schedule/create',
+                    'defaults' => [
+                        'controller' => Controller\ScheduleController::class,
+                        'action'     => 'create',
+                    ],
+                ],
+            ],
             'draft' => [
                 'type' => Literal::class,
                 'options' => [
@@ -72,7 +82,7 @@ return [
             'login' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/login',
+                    'route'    => '/',
                     'defaults' => [
                         'controller' => Controller\LoginController::class,
                         'action'     => 'login',
@@ -159,7 +169,6 @@ return [
                     ],
                 ],
             ],
-
 //            'application' => [
 //                'type'    => Segment::class,
 //                'options' => [
@@ -181,6 +190,9 @@ return [
             Controller\EmailController::class => EmailControllerFactory::class,
         ],
     ],
+    'session_containers' => [
+        'SchedulerContainer'
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -198,4 +210,5 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+
 ];

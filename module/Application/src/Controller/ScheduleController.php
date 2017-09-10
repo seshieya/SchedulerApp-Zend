@@ -17,6 +17,8 @@ use Zend\View\Model\JsonModel;
 
 use Zend\Http\Request;
 
+use Zend\Session\Container;
+use Zend\Session\SessionManager;
 
 
 use Application\Database\ScheduleTable;
@@ -47,6 +49,8 @@ class ScheduleController extends AbstractActionController
     private $scheduleRowTable;
     private $jobTable;
     private $employeeTable;
+    private $sessionManager;
+    private $sessionContainer;
     //private $tradeTable;
 
     private $baseTable;
@@ -54,12 +58,15 @@ class ScheduleController extends AbstractActionController
 //    protected $post;
 //    protected $startdate;
 
-    public function __construct(ScheduleTable $scheduleTable, ScheduleRowTable $scheduleRowTable, JobTable $jobTable, EmployeeTable $employeeTable)
+    public function __construct(ScheduleTable $scheduleTable, ScheduleRowTable $scheduleRowTable, JobTable $jobTable, EmployeeTable $employeeTable, $sessionManager, $sessionContainer)
     {
         $this->scheduleTable = $scheduleTable;
         $this->scheduleRowTable = $scheduleRowTable;
         $this->jobTable = $jobTable;
         $this->employeeTable = $employeeTable;
+
+        $this->sessionManager = $sessionManager;
+        $this->sessionContainer = $sessionContainer;
 
 
         /*$this->post = $this->getRequest()->getPost();
@@ -74,6 +81,46 @@ class ScheduleController extends AbstractActionController
         $this->employeeTable = new EmployeeTable('scheduler', 'root', '');*/
         //$this->tradeTable = new TradeTable('scheduler', 'root', '');
 
+    }
+
+
+    public function createAction()
+    {
+        /*$sessionManager = new SessionManager();
+        $sessionContainer = new Container('schedulerContainer', $sessionManager);*/
+
+        $sessionData = [];
+        $sessionData['coordinatorName'] = $this->sessionContainer->coordinatorName;
+        $sessionData['coordinatorEmail'] = $this->sessionContainer->coordinatorEmail;
+        $sessionData['coordinatorPhone'] = $this->sessionContainer->coordinatorPhone;
+
+        /*$post = $this->getRequest()->getPost();
+        $job = [];
+        $rowOther = [];
+        $rowDayInDayOut = [];
+        $data = [];
+
+        if(isset($post)) {
+            $job = json_decode($post['job'], true);
+            $rowOther = json_decode($post['rowOther'], true);
+            $rowDayInDayOut = json_decode($post['rowDayInDayOut'], true);
+            $data = ['job' => $job, 'rowOther' => $rowOther, 'rowDayInDayOut' => $rowDayInDayOut];
+        }*/
+
+        /*
+        $job = $this->getRequest()->getPost('job');
+        $rowOther = $this->getRequest()->getPost('rowOther');
+        $rowDayInDayOut = $this->getRequest()->getPost('rowDayInDayOut');
+        $data = [];
+
+        if (isset($job) && isset($rowOther) && isset($rowDayInDayOut)) {
+            $jobDecoded = json_decode($job);
+            $rowOtherDecoded = json_decode($rowOther);
+            $rowDayInDayOutDecoded = json_decode($rowDayInDayOut);
+            $data = ['job' => $jobDecoded, 'rowOther' => $rowOtherDecoded, 'rowDayInDayOut' => $rowDayInDayOutDecoded];
+        }*/
+
+        return new ViewModel($sessionData);
     }
 
     public function draftAction()
