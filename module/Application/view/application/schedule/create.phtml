@@ -1,4 +1,4 @@
-<h1>Schedule Maker</h1>
+<h1>Create Schedule</h1>
 <form action="/draft" method="post" id="sc-form">
     <div class="col-md-4">
         <label for="sc-job-number">Job Number (enter without dashes):</label>
@@ -230,12 +230,12 @@
     </div>
 
     <input  type="button"
-            value="Add row"
+            value="Add"
             id="sc-addrows"
             class="btn btn-default" />
 
     <input  type="button"
-            value="Remove row"
+            value="Remove"
             id="sc-removerows"
             class="btn btn-default" />
 
@@ -244,6 +244,10 @@
     <input  type="submit"
             value="Save & Continue"
             id="sc-submit"
-            class="btn btn-default" />
+            class="btn btn-success" />
 
 </form>
+
+
+<!-- MY SCRIPTS -->
+<script src="/js/addrows.js"></script>

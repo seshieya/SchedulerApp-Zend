@@ -49,7 +49,17 @@ class PdfController extends AbstractActionController
     public function downloadAction()
     {
 
-        $html = $this->getRequest()->getPost('pvw-pdf');
+        $trade = $this->getRequest()->getPost('pvw-pdf-input');
+        $withoutTrade = $this->getRequest()->getPost('pvw-pdf-wotrades-input');
+
+        if($trade !== null) {
+            $html = $trade;
+        }
+        else {
+            $html = $withoutTrade;
+        }
+
+        //$html = $this->getRequest()->getPost('pvw-pdf-input');
 
         //fix the line breaks for html output:
         /*$searchOrder = ["\r\n", "\n", "\r"];

@@ -58,29 +58,40 @@ class EmailController extends AbstractActionController
 
     public function draftAction()
     {
-        $htmlSchedule = $this->getRequest()->getPost('em-html-email');
+        $htmlSchedule = $this->getRequest()->getPost('pvw-email-input');
 
         $data = [];
 
-        $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
-        $schedId = $scheduleInfo['sched_id'];
-        $tradeInfo = $this->scheduleRowTable->getTradeInfo($schedId);
+        $jobNumber = trim($this->getRequest()->getPost('pvw-email-job-number'));
 
-        $data['jobId'] = $scheduleInfo['job_id'];
-        $data['jobAddress'] = $scheduleInfo['address'];
+        $scheduleInfo = false;
 
-        $scheduleRowModel = new ScheduleRow();
-        foreach($tradeInfo as $trade) {
-            $scheduleRowModel->reset();
-
-            $scheduleRowModel
-                ->setTradeName($trade['trade_name'])
-                ->setTradeEmail($trade['trade_email']);
-
-            $data['tradeData'][] = $scheduleRowModel->getTradeDataForView();
+        //check if job number exists in the database if the job number is not null or an emtpy string.
+        //returns false to $scheduleInfo if job number doesn't exist:
+        if($jobNumber != null && $jobNumber != '') {
+            $scheduleInfo = $this->scheduleTable->getScheduleFromJobNumber($jobNumber);
         }
 
-        $data['htmlSchedule'] = $htmlSchedule;
+        if ($scheduleInfo !== false) {
+            $schedId = $scheduleInfo['sched_id'];
+            $tradeInfo = $this->scheduleRowTable->getTradeInfo($schedId);
+
+            $data['jobId'] = $scheduleInfo['job_id'];
+            $data['jobAddress'] = $scheduleInfo['address'];
+
+            $scheduleRowModel = new ScheduleRow();
+            foreach ($tradeInfo as $trade) {
+                $scheduleRowModel->reset();
+
+                $scheduleRowModel
+                    ->setTradeName($trade['trade_name'])
+                    ->setTradeEmail($trade['trade_email']);
+
+                $data['tradeData'][] = $scheduleRowModel->getTradeDataForView();
+            }
+
+            $data['htmlSchedule'] = $htmlSchedule;
+        }
 
         return new ViewModel($data);
     }

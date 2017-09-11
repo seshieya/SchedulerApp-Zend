@@ -62,7 +62,7 @@ class ScheduleTable extends BaseTable
         return $row['sched_id'];
     }
 
-    public function getScheduleInfo($jobId) {
+    public function getScheduleFromJobNumber($jobId) {
         $select = $this->sql
             ->select()
             ->from('schedule')
