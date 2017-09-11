@@ -10,7 +10,6 @@
 namespace Application\Controller;
 
 
-use Application\Database\BaseTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -30,7 +29,7 @@ use Application\Database\TradeTable;
 use Application\Model\Job;
 use Application\Model\Schedule;
 use Application\Model\ScheduleRow;
-
+use Zend\View\View;
 
 
 class ScheduleController extends AbstractActionController
@@ -52,8 +51,6 @@ class ScheduleController extends AbstractActionController
     private $sessionManager;
     private $sessionContainer;
     //private $tradeTable;
-
-    private $baseTable;
 
 //    protected $post;
 //    protected $startdate;
@@ -125,7 +122,15 @@ class ScheduleController extends AbstractActionController
 
     public function draftAction()
     {
-        $post = $this->getRequest()->getPost();
+        $request = $this->getRequest();
+
+        //redirect authenticated users to the home page if no data posted:
+        if(!$request->isPost()) {
+            $this->redirect()->toRoute('home');
+        }
+
+        $post = $request->getPost();
+
         $startdate = $this->request->getPost('sc-startdate');
 
         $data = [];
@@ -302,41 +307,58 @@ class ScheduleController extends AbstractActionController
         return new JsonModel($data);
     }
 
-
     public function previewAction()
     {
         //need to figure out how to get a custom job number here! maybe add a if there is POST request statement?
-        $scheduleInfo = $this->scheduleTable->getScheduleInfo(107619000);
+        $jobNumber = trim($this->getRequest()->getQuery('pvw-job-number'));
+
+        $scheduleInfo = false;
+
+        //check if job number exists in the database if the job number is not null or an emtpy string.
+        //returns false to $scheduleInfo if job number doesn't exist:
+        if($jobNumber != null && $jobNumber != '') {
+            $scheduleInfo = $this->scheduleTable->getScheduleFromJobNumber($jobNumber);
+        }
 
         $schedData = [];
+        $schedData['scheduleExists'] = false;
 
-        $scheduleModel = new Schedule();
-        $scheduleModel
-            ->setJobNumber($scheduleInfo['job_id'])
-            ->setVersionNum($scheduleInfo['version_num'])
-            ->setModifiedDate($scheduleInfo['modified_date'])
-            ->setJobAddress($scheduleInfo['address'])
-            ->setJobAccess($scheduleInfo['access']);
+        if ($scheduleInfo !== false) {
+
+            $scheduleModel = new Schedule();
+            $scheduleModel
+                ->setJobNumber($scheduleInfo['job_id'])
+                ->setVersionNum($scheduleInfo['version_num'])
+                ->setModifiedDate($scheduleInfo['modified_date'])
+                ->setJobAddress($scheduleInfo['address'])
+                ->setJobAccess($scheduleInfo['access']);
 
 
-        $schedData['schedInfo'] = $scheduleModel->getArrayForView();
+            $schedData['schedInfo'] = $scheduleModel->getArrayForView();
 
 
-        $schedId = $scheduleInfo['sched_id'];
-        $schedRows = $this->scheduleRowTable->getScheduleRows($schedId);
+            $schedId = $scheduleInfo['sched_id'];
+            $schedRows = $this->scheduleRowTable->getScheduleRows($schedId);
 
-        $scheduleRowModel = new ScheduleRow();
-        foreach($schedRows as $rows) {
-            $scheduleRowModel->reset();
+            $scheduleRowModel = new ScheduleRow();
+            foreach ($schedRows as $rows) {
+                $scheduleRowModel->reset();
 
-            $scheduleRowModel
-                ->setTradeName($rows['trade_name'])
-                ->setTypeOfWork($rows['type_of_work'])
-                ->setDayIn($rows['day_in'])
-                ->setDayOut($rows['day_out'])
-                ->setComments($rows['comments']);
-            $schedData['rows'][] = $scheduleRowModel->getArrayForView();
+                $scheduleRowModel
+                    ->setTradeName($rows['trade_name'])
+                    ->setTypeOfWork($rows['type_of_work'])
+                    ->setDayIn($rows['day_in'])
+                    ->setDayOut($rows['day_out'])
+                    ->setComments($rows['comments']);
+                $schedData['rows'][] = $scheduleRowModel->getArrayForView();
+            }
+            $schedData['scheduleExists'] = true;
         }
+        else if($scheduleInfo === false && $jobNumber != null && $jobNumber != '') {
+            $schedData['message'] = 'Job number or schedule not found.';
+        }
+
+
 
         /*$sessionManager = new SessionManager();
         $sessionContainer = new Container('schedulerContainer', $sessionManager);

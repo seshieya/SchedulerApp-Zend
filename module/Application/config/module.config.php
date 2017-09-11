@@ -12,9 +12,15 @@ use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 
-use Application\Factories\ScheduleControllerFactory;
-use Application\Factories\EmailControllerFactory;
-use Application\Factories\LoginControllerFactory;
+use Application\Controller\Factories\ScheduleControllerFactory;
+use Application\Controller\Factories\EmailControllerFactory;
+use Application\Controller\Factories\LoginControllerFactory;
+use Application\Controller\Factories\SignupControllerFactory;
+use Application\Service\AuthManager;
+use Application\Service\Factories\AuthManagerFactory;
+use Application\Service\Factories\AuthenticationServiceFactory;
+use Application\Service\AuthAdapter;
+use Application\Service\Factories\AuthAdapterFactory;
 
 return [
     'router' => [
@@ -69,7 +75,7 @@ return [
                     ],
                 ],
             ],
-            'previewBeforeDownload' => [
+            'previewSchedule' => [
                 'type' => Literal::class,
                 'options' => [
                     'route'    => '/schedule/preview',
@@ -114,7 +120,7 @@ return [
                 'options' => [
                     'route'    => '/signup',
                     'defaults' => [
-                        'controller' => Controller\LoginController::class,
+                        'controller' => Controller\SignupController::class,
                         'action'     => 'signup',
                     ],
                 ],
@@ -124,7 +130,7 @@ return [
                 'options' => [
                     'route'    => '/thanks',
                     'defaults' => [
-                        'controller' => Controller\LoginController::class,
+                        'controller' => Controller\SignupController::class,
                         'action'     => 'saveSignup',
                     ],
                 ],
@@ -188,10 +194,46 @@ return [
             Controller\LoginController::class => LoginControllerFactory::class,
             Controller\PdfController::class => InvokableFactory::class,
             Controller\EmailController::class => EmailControllerFactory::class,
+            Controller\SignupController::class => SignupControllerFactory::class,
         ],
     ],
     'session_containers' => [
         'SchedulerContainer'
+    ],
+    'service_manager' => [
+        'factories' => [
+            \Zend\Authentication\AuthenticationService::class => AuthenticationServiceFactory::class,
+            AuthManager::class => AuthManagerFactory::class,
+            AuthAdapter::class => AuthAdapterFactory::class,
+        ],
+    ],
+    'access_filter' => [
+        'options' => [
+            // The access filter can work in 'restrictive' (recommended) or 'permissive'
+            // mode. In restrictive mode all controller actions must be explicitly listed
+            // under the 'access_filter' config key, and access is denied to any not listed
+            // action for not logged in users. In permissive mode, if an action is not listed
+            // under the 'access_filter' key, access to it is permitted to anyone (even for
+            // not logged in users. Restrictive mode is more secure and recommended to use.
+            'mode' => 'restrictive'
+        ],
+        'controllers' => [
+            Controller\ScheduleController::class => [
+                // Allow anyone to visit "index" and "about" actions
+                //['actions' => ['index', 'about'], 'allow' => '*'],
+                // Allow authenticated users to visit "settings" action
+                ['actions' => ['create', 'draft', 'save', 'dates', 'preview'], 'allow' => '@']
+            ],
+            Controller\EmailController::class => [
+                ['actions' => ['draft', 'email', 'confirm'], 'allow' => '@']
+            ],
+            Controller\PdfController::class => [
+                ['actions' => ['download'], 'allow' => '@']
+            ],
+            Controller\SignupController::class => [
+                ['actions' => ['signup', 'saveSignup'], 'allow' => '*']
+            ],
+        ]
     ],
     'view_manager' => [
         'display_not_found_reason' => true,

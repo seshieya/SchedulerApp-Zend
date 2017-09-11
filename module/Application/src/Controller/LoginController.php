@@ -17,6 +17,7 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Authentication\AuthenticationService;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
+use Zend\Authentication\Result;
 
 use Application\Database\EmployeeTable;
 use Application\Database\LoginTable;
@@ -30,7 +31,12 @@ class LoginController extends AbstractActionController
     private $sessionManager;
     private $sessionContainer;
 
-    public function __construct(EmployeeTable $employeeTable, LoginTable $loginTable, $sessionManager, $sessionContainer)
+    private $authManager;
+
+    private $authService;
+
+
+    public function __construct(EmployeeTable $employeeTable, LoginTable $loginTable, $sessionManager, $sessionContainer, $authManager, $authService)
     {
 
         $this->employeeTable = $employeeTable;
@@ -39,6 +45,8 @@ class LoginController extends AbstractActionController
         $this->sessionManager = $sessionManager;
         $this->sessionContainer = $sessionContainer;
 
+        $this->authManager = $authManager;
+        $this->authService = $authService;
 
         /*$this->employeeTable = new EmployeeTable('scheduler', 'root', '');
         $this->loginTable = new LoginTable('scheduler', 'root', '');*/
@@ -51,10 +59,95 @@ class LoginController extends AbstractActionController
 
     public function loginAction()
     {
+        if($this->authManager->getIdentity() != null) {
+            $this->redirect()->toRoute('create');
+        }
         return new ViewModel();
     }
 
+
     public function loginVerifyAction()
+    {
+
+        $username = $this->getRequest()->getPost('username');
+        $password = $this->getRequest()->getPost('password');
+
+        $dbPassword = $this->loginTable->getPassword($username);
+
+        $result = $this->authManager->login($username, $password, $dbPassword);
+
+        if($result->getCode() == Result::SUCCESS) {
+            //get employee details from database:
+            $empId = $this->loginTable->getEmpId($username);
+
+            $empDetails = $this->employeeTable->getEmployeeDetails($empId);
+            $employeeModel = new Employee();
+            $employeeModel
+                ->setFirstName($empDetails['first_name'])
+                ->setLastName($empDetails['last_name'])
+                ->setEmail($empDetails['email'])
+                ->setPhone($empDetails['phone']);
+            $empData = $employeeModel->getArrayForView();
+
+            $this->sessionContainer->coordinatorName = $empData['full_name'];
+            $this->sessionContainer->coordinatorEmail = $empData['email'];
+            $this->sessionContainer->coordinatorPhone = $empData['phone'];
+
+            //unset($sessionContainer->username);
+
+            $this->redirect()->toRoute('create');
+
+        }
+
+
+//            $sessionManager = new SessionManager();
+//            $sessionContainer = new Container('schedulerContainer', $sessionManager);
+
+            //get employee details from database:
+           /* $empId = $this->loginTable->getEmpId($username);
+
+            $empDetails = $this->employeeTable->getEmployeeDetails($empId);
+            $employeeModel = new Employee();
+            $employeeModel
+                ->setFirstName($empDetails['first_name'])
+                ->setLastName($empDetails['last_name'])
+                ->setEmail($empDetails['email'])
+                ->setPhone($empDetails['phone']);
+            $empData = $employeeModel->getArrayForView();
+
+            $this->sessionContainer->coordinatorName = $empData['full_name'];
+            $this->sessionContainer->coordinatorEmail = $empData['email'];
+            $this->sessionContainer->coordinatorPhone = $empData['phone'];
+
+            //unset($sessionContainer->username);
+
+            $this->redirect()->toRoute('create');*/
+
+
+            /*$dbAdapter = new Adapter([
+                'driver' => 'Pdo_Mysql',
+                'hostname' => 'localhost',
+                'username' => 'root',
+                'password' => '',
+                'database' => 'scheduler',
+            ]);
+            $authAdapter = new AuthAdapter($dbAdapter);
+            $authAdapter
+                ->setTableName('login')
+                ->setIdentityColumn('username')
+                ->setCredentialColumn('password');
+
+            $authAdapter
+                ->setIdentity($username)
+                ->setCredential($passwordHashFromDb);
+
+            $result = $authAdapter->authenticate();*/
+
+
+        return new ViewModel();
+    }
+
+    /*public function loginVerifyAction()
     {
         $username = $this->getRequest()->getPost('username');
         $password = $this->getRequest()->getPost('password');
@@ -105,18 +198,23 @@ class LoginController extends AbstractActionController
                 ->setIdentity($username)
                 ->setCredential($passwordHashFromDb);
 
-            $result = $authAdapter->authenticate();*/
+            $result = $authAdapter->authenticate();
         }
 
         return new ViewModel();
-    }
+    }*/
 
     public function logoutAction()
     {
-        $this->sessionManager->destroy();
+
+        //$this->sessionManager->destroy();
+
+        $this->authManager->logout();
+
+        $this->redirect()->toRoute('home');
     }
 
-    public function signupAction()
+    /*public function signupAction()
     {
         return new ViewModel();
     }
@@ -162,10 +260,12 @@ class LoginController extends AbstractActionController
             else {
                 $employeeArray[$key] = $value;
             }
-        }*/
+        }
 
 
 
         return new ViewModel();
-    }
+    }*/
+
+
 }

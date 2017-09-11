@@ -1,25 +1,18 @@
 <?php
-namespace Application\Factories;
+namespace Application\Controller\Factories;
 
-use Application\Controller\LoginController;
+use Application\Controller\SignupController;
 use Application\Database\LoginTable;
 use Application\Database\EmployeeTable;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Session\SessionManager;
 
-final class LoginControllerFactory implements FactoryInterface
+final class SignupControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $db = $container->get('config')['db'];
-
-        // Retrieve an instance of the session manager from the service manager.
-        $sessionManager = $container->get(SessionManager::class);
-
-
-        $sessionContainer = $container->get('SchedulerContainer');
 
         $employeeTable = new EmployeeTable(
             $db['database'],
@@ -37,6 +30,7 @@ final class LoginControllerFactory implements FactoryInterface
             $db['driver'])
         ;
 
-        return new LoginController($employeeTable, $loginTable, $sessionManager, $sessionContainer);
+        return new SignupController($employeeTable, $loginTable);
+
     }
 }

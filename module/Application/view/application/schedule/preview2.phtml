@@ -1,0 +1,56 @@
+<h1>Enter job number of schedule to preview:</h1>
+<form method="get" action="/schedule/pull">
+    <input type="text"
+           name="pvw-job-number"
+           id="pvw-job-number"
+
+    />
+    <input type="submit"
+           class="btn btn-default"
+           id="pvw-submit"
+    />
+</form>
+
+<div id="pvw-schedule"></div>
+
+
+
+
+<!--<script>
+    $("#pvw-submit").on("click", function(event){
+        event.preventDefault();
+
+        var jobNumber = document.getElementById("pvw-job-number").value;
+
+        pullSchedule(jobNumber);
+
+    });
+
+    function pullSchedule(scheduleJobNumber) {
+        $.ajax({
+            url: "/schedule/pull",
+            type: "post",
+            datatype: "json",
+            data: {jobNumber: scheduleJobNumber},
+
+            success: function(html) {
+                /*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];
+                 $("sc-row" + rowId + "-dayOut").value = updatedDates["rowDayOut"];
+
+                 console.log(updatedDates["rowDayIn"]);
+                 console.log(updatedDates["rowDayOut"]);*/
+
+                /* $("#sc-row" + rowId + "-dayIn").val(updatedDates.finalDayIn);
+                 $("#sc-row" + rowId + "-dayOut").val(updatedDates.finalDayOut);*/
+
+                $("#pvw-schedule").append(html);
+
+                /*$("#sc-row" + selectedRowId + "-dayIn").val(updatedDates.(sc-row + selectedRowId + -dayIn));
+                 $("#sc-row" + selectedRowId + "-dayOut").val(updatedDates.finalDayOut);*/
+
+
+            }
+
+        });
+    }
+</script>-->

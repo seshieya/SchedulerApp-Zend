@@ -1,166 +1,183 @@
+<h1>Preview Schedule</h1>
+<p>Enter job number of schedule to preview:</p>
+<form method="get" action="/schedule/preview">
+    <input type="text"
+           name="pvw-job-number"
+           id="pvw-job-number"
+    />
+    <input type="submit"
+           class="btn btn-primary"
+           id="pvw-submit"
+           value="View"
+    />
+</form>
+
+<hr/>
+
+<!--pvw means preview-->
+
 <?php
-ob_start();
-?>
+//var of markup of full schedule
+$markup = [];
+$form = '';
 
-<!--CHANGE THIS PART TO USING JAVASCRIPT??!!!!-->
-
-<!-- pvw means preview -->
-<div id="pvw">
-
-<h1>Restoration Schedule</h1>
-
-<table id="pvw-table-job">
-    <thead>
-    <tr>
-        <th>Job Number</th>
-        <th>Address</th>
-        <th>Access</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-    echo "<tr>
-            <td>" . $this->schedInfo['job_id'] . "</td>
-            <td>" . $this->schedInfo['address'] . "</td>
-            <td>" . $this->schedInfo['access'] . "</td>
-          </tr>";
-    ?>
-    </tbody>
-
-</table>
+/*//var of markup without trade column
+$markupWithoutTrade='';*/
 
 
-<table id="pvw-table-row">
-    <tr>
-        <th class="pvw-row-narrow">Type of Work</th>
-        <th class="pvw-row-narrow">Trade</th>
-        <th class="pvw-row-narrow">Date In</th>
-        <th class="pvw-row-narrow">Date Out</th>
-        <th class="pvw-row-wide">Comments</th>
-    </tr>
+if ($this->scheduleExists === true) {
+    //MARKUP OF FULL SCHEDULE:
+    $markup[] =
+    '<div id="pvw">
+        <div id="pvw-schedule">
+        <h1>Restoration Schedule </h1>
+        
+        <table id="pvw-table-job">
+            <thead>
+            <tr>
+                <th>Job Number</th>
+                <th>Address</th>
+                <th>Access</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="pvw-td-jb-number">' . $this->schedInfo['job_id'] . '</td>
+                    <td>' . $this->schedInfo['address'] . '</td>
+                    <td>' . $this->schedInfo['access'] . '</td>
+                  </tr>
+            </tbody>
+        </table>
 
-    <?php
+        <table id="pvw-table-row">
+            <tr>
+                <th class="pvw-row-narrow">Type of Work</th>
+                <th class="pvw-row-narrow pvw-trade-name">Trade</th>
+                <th class="pvw-row-narrow">Date In</th>
+                <th class="pvw-row-narrow">Date Out</th>
+                <th class="pvw-row-wide">Comments</th>
+            </tr>';
 
-    $rowNum = 1;
-    foreach($this->rows as $rows) {
-        echo "<tr>
-                      <td>" . $rows['type_of_work'] . "</td>
-                      <td>" . $rows['trade_name'] . "</td>
-                      <td>" . $rows['day_in'] . "</td>
-                      <td>" . $rows['day_out'] . "</td>
-                      <td>" . $rows['comments'] . "</td>
-                 </tr>";
+    foreach ($this->rows as $rows) {
+        $markup[] = '<tr>
+                          <td>' . $rows['type_of_work'] . '</td>
+                          <td class="pvw-trade-name">' . $rows['trade_name'] . '</td>
+                          <td>' . $rows['day_in'] . '</td>
+                          <td>' . $rows['day_out'] . '</td>
+                          <td>' . $rows['comments'] . '</td>
+                      </tr>';
 
-        $rowNum++;
     }
 
-    ?>
-
-</table>
-
-</div>
-
-<?php
-$contents = ob_get_contents();
-ob_end_clean();
-
-echo $contents;
-
-ob_start();
-?>
-
-<!-- pvw means preview -->
-<div id="pvw">
-
-    <h1>Restoration Schedule</h1>
-
-    <table id="pvw-table-job">
-        <thead>
-        <tr>
-            <th>Job Number</th>
-            <th>Address</th>
-            <th>Access</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        echo "<tr>
-            <td>" . $this->schedInfo['job_id'] . "</td>
-            <td>" . $this->schedInfo['address'] . "</td>
-            <td>" . $this->schedInfo['access'] . "</td>
-          </tr>";
-        ?>
-        </tbody>
-
-    </table>
+    $markup[] = '</table>
+        </div>
+    </div>';
 
 
-    <table id="pvw-table-row">
-        <tr>
-            <th class="pvw-row-narrow">Type of Work</th>
-            <th class="pvw-row-narrow">Date In</th>
-            <th class="pvw-row-narrow">Date Out</th>
-            <th class="pvw-row-wide">Comments</th>
-        </tr>
-
-        <?php
-
-        $rowNum = 1;
-        foreach($this->rows as $rows) {
-            echo "<tr>
-                      <td>" . $rows['type_of_work'] . "</td>
-                      <td>" . $rows['day_in'] . "</td>
-                      <td>" . $rows['day_out'] . "</td>
-                      <td>" . $rows['comments'] . "</td>
-                 </tr>";
-
-            $rowNum++;
-        }
-
-        ?>
 
 
-    </table>
-
-</div>
-
-<?php
-$contentsWithoutTrade = ob_get_contents();
-ob_end_clean();
-?>
-
-<form action="/schedule/download" method="post">
+    //FORMS
+    $form = '<form action="/schedule/download" method="post" id="pvw-pdf-form">
     <input type="hidden"
-           id="pvw-pdf"
-           name="pvw-pdf"
-           value='<?php echo $contents; ?>' />
+           id="pvw-pdf-input"
+           name="pvw-pdf-input"
+           value="" />
     <input type="submit"
            value="Download as PDF"
+           id="pvw-pdf-submit"
            class="btn btn-default"    />
 
-</form>
+    </form>
+    
+    <form action="/schedule/download" method="post" id="pvw-pdf-wotrades-form">
+        <input type="hidden"
+               id="pvw-pdf-wotrades-input"
+               name="pvw-pdf-wotrades-input"
+               value="" />
+        <input type="submit"
+               value="Download as PDF without Trade Names"
+               id="pvw-pdf-wotrades-submit"
+               class="btn btn-default"   />
+    
+    </form>
+    
+    <form action="/schedule/emaildraft" method="post" id="pvw-email-form">
+        <input type="hidden"
+               id="pvw-email-input"
+               name="pvw-email-input"
+               value="" />
+        <input type="hidden"
+               id="pvw-email-job-number"
+               name="pvw-email-job-number"
+               value="" />
+        <input type="submit"
+               value="Email to Trades"
+               id="pvw-email-submit"
+               class="btn btn-default"    />
+    
+    </form>';
 
-<form action="/schedule/download" method="post">
-    <input type="hidden"
-           id="pvw-pdf"
-           name="pvw-pdf"
-           value='<?php echo $contentsWithoutTrade; ?>' />
-    <input type="submit"
-           value="Download as PDF without Trade Names"
-           class="btn btn-default"    />
+}
+else if(isset($this->message)) {
+    echo $this->message;
+}
 
-</form>
 
-<form action="/schedule/emaildraft" method="post">
-    <input type="hidden"
-           id="em-html-email"
-           name="em-html-email"
-           value='<?php echo $contents; ?>' />
-    <input type="submit"
-           value="Email to Trades"
-           class="btn btn-default"    />
+foreach($markup as $schedule) {
+    echo $schedule;
+}
 
-</form>
+echo $form;
+
+?>
+
+
+<script>
+    window.onload = function(){
+
+        document.getElementById("pvw-pdf-submit").addEventListener("click", function(event) {
+            event.preventDefault();
+            var htmlMarkup = document.getElementById("pvw").innerHTML;
+            console.log(htmlMarkup);
+            document.getElementById("pvw-pdf-input").value = htmlMarkup;
+            document.getElementById("pvw-pdf-form").submit();
+        });
+
+
+        document.getElementById("pvw-pdf-wotrades-submit").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            var $htmlMarkupClone = $("#pvw").clone();
+            $htmlMarkupClone.find(".pvw-trade-name").remove();
+
+            var $finalHtml = $htmlMarkupClone.html();
+
+            console.log($finalHtml);
+
+            document.getElementById("pvw-pdf-wotrades-input").value = $finalHtml;
+            document.getElementById("pvw-pdf-wotrades-form").submit();
+        });
+
+
+
+        document.getElementById("pvw-email-submit").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            var htmlMarkup = document.getElementById("pvw").innerHTML;
+            //console.log(htmlMarkup);
+
+            var jobNumber = document.getElementById("pvw-td-jb-number").innerHTML;
+            console.log(jobNumber);
+
+            document.getElementById("pvw-email-job-number").value = jobNumber;
+            document.getElementById("pvw-email-input").value = htmlMarkup;
+            document.getElementById("pvw-email-form").submit();
+        });
+
+
+    }
+</script>
+
 
 <!--<a href="/schedule/emaildraft" class="btn btn-default" role="button">Email to Trades</a>-->
 

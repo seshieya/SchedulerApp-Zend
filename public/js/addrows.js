@@ -1,4 +1,4 @@
-$(function(){
+window.onload = function(){
 
 	var rowNum = 1;
 	var rowTotal = 1;
@@ -300,7 +300,7 @@ $(function(){
 
 
 
-});
+};
 
 
 

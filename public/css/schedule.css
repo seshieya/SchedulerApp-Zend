@@ -6,6 +6,7 @@
 body {
 	padding-top: 50px;
 	font-family: 'Open Sans', arial, sans-serif;
+	height: 100%;
 }
 
 /*label textarea {
@@ -54,6 +55,33 @@ input[id^="sc-"].error, textarea[id^="sc-"].error{
 	margin-bottom: 2px;
 }
 
+.displaynone {
+	display: none !important;
+}
+
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 80px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 50px;
+	line-height: 50px; /* Vertically center the text there */
+	background-color: #f5f5f5;
+	text-align: center;
+}
 
 
 
