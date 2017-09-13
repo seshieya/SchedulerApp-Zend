@@ -16,20 +16,16 @@ use Zend\View\Model\JsonModel;
 
 use Zend\Http\Request;
 
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-
 
 use Application\Database\ScheduleTable;
 use Application\Database\ScheduleRowTable;
 use Application\Database\JobTable;
 use Application\Database\EmployeeTable;
-use Application\Database\TradeTable;
 
 use Application\Model\Job;
 use Application\Model\Schedule;
 use Application\Model\ScheduleRow;
-use Zend\View\View;
+
 
 
 class ScheduleController extends AbstractActionController
@@ -50,10 +46,7 @@ class ScheduleController extends AbstractActionController
     private $employeeTable;
     private $sessionManager;
     private $sessionContainer;
-    //private $tradeTable;
 
-//    protected $post;
-//    protected $startdate;
 
     public function __construct(ScheduleTable $scheduleTable, ScheduleRowTable $scheduleRowTable, JobTable $jobTable, EmployeeTable $employeeTable, $sessionManager, $sessionContainer)
     {
@@ -65,68 +58,29 @@ class ScheduleController extends AbstractActionController
         $this->sessionManager = $sessionManager;
         $this->sessionContainer = $sessionContainer;
 
-
-        /*$this->post = $this->getRequest()->getPost();
-        $this->startdate = $this->request->getPost('sc-startdate');*/
-
-        //NEED TO PUT THESE SETTINGS INTO THE MODULE CONFIG LIKE WHAT GARY SHOWED.
-
-
-        /*$this->scheduleTable = new ScheduleTable('scheduler', 'root', '');
-        $this->scheduleRowTable = new ScheduleRowTable('scheduler', 'root', '');
-        $this->jobTable = new JobTable('scheduler', 'root', '');
-        $this->employeeTable = new EmployeeTable('scheduler', 'root', '');*/
-        //$this->tradeTable = new TradeTable('scheduler', 'root', '');
-
     }
 
 
     public function createAction()
     {
-        /*$sessionManager = new SessionManager();
-        $sessionContainer = new Container('schedulerContainer', $sessionManager);*/
 
         $sessionData = [];
         $sessionData['coordinatorName'] = $this->sessionContainer->coordinatorName;
         $sessionData['coordinatorEmail'] = $this->sessionContainer->coordinatorEmail;
         $sessionData['coordinatorPhone'] = $this->sessionContainer->coordinatorPhone;
 
-        /*$post = $this->getRequest()->getPost();
-        $job = [];
-        $rowOther = [];
-        $rowDayInDayOut = [];
-        $data = [];
-
-        if(isset($post)) {
-            $job = json_decode($post['job'], true);
-            $rowOther = json_decode($post['rowOther'], true);
-            $rowDayInDayOut = json_decode($post['rowDayInDayOut'], true);
-            $data = ['job' => $job, 'rowOther' => $rowOther, 'rowDayInDayOut' => $rowDayInDayOut];
-        }*/
-
-        /*
-        $job = $this->getRequest()->getPost('job');
-        $rowOther = $this->getRequest()->getPost('rowOther');
-        $rowDayInDayOut = $this->getRequest()->getPost('rowDayInDayOut');
-        $data = [];
-
-        if (isset($job) && isset($rowOther) && isset($rowDayInDayOut)) {
-            $jobDecoded = json_decode($job);
-            $rowOtherDecoded = json_decode($rowOther);
-            $rowDayInDayOutDecoded = json_decode($rowDayInDayOut);
-            $data = ['job' => $jobDecoded, 'rowOther' => $rowOtherDecoded, 'rowDayInDayOut' => $rowDayInDayOutDecoded];
-        }*/
 
         return new ViewModel($sessionData);
     }
 
     public function draftAction()
     {
+        /** @var Request $request */
         $request = $this->getRequest();
 
-        //redirect authenticated users to the home page if no data posted:
+        //redirect authenticated users to the create page if no data posted:
         if(!$request->isPost()) {
-            $this->redirect()->toRoute('home');
+            $this->redirect()->toRoute('create');
         }
 
         $post = $request->getPost();
@@ -134,9 +88,6 @@ class ScheduleController extends AbstractActionController
         $startdate = $this->request->getPost('sc-startdate');
 
         $data = [];
-
-        /** @var Request $request */
-        //$request = $this->getRequest();
 
         $jobAndRowsArray = $this->_separateJobAndRows($post);
 
@@ -151,11 +102,10 @@ class ScheduleController extends AbstractActionController
 
     public function saveAction()
     {
-        //consider moving saveAction to it's own controller. because putting save and draft in same controller seems like there is too much code
+
         $post = $this->getRequest()->getPost();
 
         $jobArray = [];
-        $tradeArray = [];
         $scheduleArray = [];
         $scheduleRowArray = [];
 
@@ -212,67 +162,6 @@ class ScheduleController extends AbstractActionController
         }
 
 
-
-/*        for($i=0; $i < sizeof($jobAndRowsArray['job']); $i++) {
-            $jobModel->reset();
-
-            $jobModel
-                ->setJobNumber($jobAndRowsArray['job']['sc-job-number'])
-                ->setEmpId(0)
-                ->setAddress($jobAndRowsArray['job']['sc-job-address'])
-                ->setAccess($jobAndRowsArray['job']['sc-job-access']);
-
-            $jobArray = $jobModel->getArrayForDatabase();
-        }*/
-
-/*        foreach($jobAndRowsArray['job'] as $job) {
-            $jobModel->reset();
-
-            $jobModel
-                ->setJobNumber($job['job']['sc-job-number'])
-                ->setEmpId(0)
-                ->setAddress($job['job']['sc-job-address'])
-                ->setAccess($job['job']['sc-job-access']);
-
-            $jobArray = $jobModel->getArrayForDatabase();
-        }*/
-
-
-        /*foreach($post as $key => $value) {
-            if($key == 'sc-job-number') {
-                $jobArray['job_id'] = $value;
-                $scheduleArray['job_id'] = $value;
-                //temp emp_id for testing:
-                //$jobArray['emp_id'] = 1;
-            }
-            if($key == 'sc-job-address') {
-                $jobArray['address'] = $value;
-            }
-            if($key == 'sc-job-access') {
-                $jobArray['access'] = $value;
-            }
-
-        }
-
-        $rowNum = 1;
-        foreach($post as $key => $value) {
-            if(preg_match('/^sc-row' . $rowNum . '/', $key)) {
-                $scheduleRowArray[$key] = $value;
-            }
-        }*/
-
-        //$scheduleArray['version_num'] = 1;
-
-        //should use a function here to set the version number and modified date.....
-
-
-
-
-
-        //$scheduleRowArray['sched_id'] = $this->scheduleTable->getLastScheduleId();
-
-
-
         $data['message'] = 'Schedule is saved';
 
         return new ViewModel($data);
@@ -281,9 +170,6 @@ class ScheduleController extends AbstractActionController
 
     public function datesAction()
     {
-        //$daysIn = $this->getRequest()->getPost('initialDaysIn');
-        //$daysOut = $this->getRequest()->getPost('initialDaysOut');
-
 
         $followingDaysNeeded = $this->getRequest()->getPost('followingDaysNeeded');
 
@@ -296,20 +182,14 @@ class ScheduleController extends AbstractActionController
         $data = $this->_autoGenerateDates($daysNeededDecoded, $selectedStartDate, $rowId);
 
 
-
         //$data['finalDayIn'] = 'hi';
         //$data['finalDayOut'] = 'bye';
-
-        //$data = 'hi';
-
-        //echo $data;
 
         return new JsonModel($data);
     }
 
     public function previewAction()
     {
-        //need to figure out how to get a custom job number here! maybe add a if there is POST request statement?
         $jobNumber = trim($this->getRequest()->getQuery('pvw-job-number'));
 
         $scheduleInfo = false;
@@ -358,16 +238,11 @@ class ScheduleController extends AbstractActionController
             $schedData['message'] = 'Job number or schedule not found.';
         }
 
-
-
-        /*$sessionManager = new SessionManager();
-        $sessionContainer = new Container('schedulerContainer', $sessionManager);
-        $sessionContainer->schedData = $schedData;*/
-
         return new ViewModel($schedData);
     }
 
 
+    //todo Angela implement schedule version generation. need to complete and fix the below code
     private function _generateVersionNumber($schedId) {
         $versionNumber = 0;
         $id = $this->scheduleTable->getVersionNumber($schedId);
@@ -382,6 +257,7 @@ class ScheduleController extends AbstractActionController
         return $versionNumber;
     }
 
+    //todo Angela complete _generateModifiedDate function for the schedule
     private function _generateModifiedDate() {
 
     }
@@ -395,9 +271,8 @@ class ScheduleController extends AbstractActionController
         $rowOther = [];
         $rowNum = ScheduleController::ROW_ID_START;
 
-        //$data['post'] = $post;
 
-        //NEED TO ADD VALIDATION TO THE POST VALUES!!//
+        //todo Angela NEED TO ADD VALIDATION TO THE POST VALUES!!//
 
         foreach ($post as $key => $value) {
             if(preg_match('/^sc-row([0-9]|[0-9]{2})-days$/', $key)) {
@@ -433,10 +308,9 @@ class ScheduleController extends AbstractActionController
         }
 
         return ['job' => $job, 'rowOther' => $rowOther, 'rowDayInDayOut' => $rowDayInDayOut];
-//            $data['job'] = $job;
-//            $data['row'] = $row;
         //or can do: $data =['job' => $job, 'row' => $row];
     }
+
 
     //generate dates from days needed:
     private function _autoGenerateDates($daysNeededArray, $startDate, $rowIdStart) {
@@ -495,115 +369,6 @@ class ScheduleController extends AbstractActionController
         return $dayOfWeekAsNumber;
     }
 
-    /*private function _calculateDayInDayOutAsNumbers($array) {
-        $rowNum = ScheduleController::ROW_ID_START;
-
-        $dayInOutArray = [];
-        $dayIn = 0;
-        $dayOut = 0;
-
-        //CODE TO CALCULATE DAY IN AND DAY OUT IN INTEGERS and push to an array
-        foreach($array as $key => $daysNeeded) {
-            //first row calculation:
-            if(preg_match('/^sc-row1-days$/', $key)) {
-                $dayIn = ScheduleController::MIN_DAY_OF_WEEK; //first day of work
-                $dayOut = $dayIn + ($daysNeeded - 1);
-
-                /*if($dayOut > ScheduleController::MAX_DAY_OF_WEEK) {
-                    $dayOut = $dayOut%ScheduleController::MAX_DAY_OF_WEEK;
-                }
-
-//                echo 'row ' . $rowNum . ' day in: ' . $dayIn . '<br>';
-//                echo 'row 1 day out: ' . $dayOut . '<br>';
-
-//        $dayInArray[$rowNum] = $dayIn;
-//        $dayOutArray[$rowNum] = $dayOut;
-
-                $dayInOutArray[$rowNum . 'dayIn'] = $dayIn;
-                $dayInOutArray[$rowNum . 'dayOut'] = $dayOut;
-
-                $rowNum++;
-            }
-            //all other rows calculation:
-            else if(preg_match('/^sc-row([0-9]|[0-9]{2})-days$/', $key)) {
-                $dayIn = $dayOut + 1;
-                $dayOut = $dayIn + ($daysNeeded - 1);
-
-                /*if($dayIn > ScheduleController::MAX_DAY_OF_WEEK) {
-                    $dayIn = $dayIn%ScheduleController::MAX_DAY_OF_WEEK;
-                }
-                else if($dayOut > ScheduleController::MAX_DAY_OF_WEEK) {
-                    $dayOut = $dayOut%ScheduleController::MAX_DAY_OF_WEEK;
-                }
-
-//                echo 'row ' . $rowNum . ' day in: ' . $dayIn . '<br>';
-//                echo 'row ' . $rowNum . ' day out: ' . $dayOut . '<br>';
-
-//        $dayInArray[$rowNum] = $dayIn;
-//        $dayOutArray[$rowNum] = $dayOut;
-
-                $dayInOutArray[$rowNum . 'dayIn'] = $dayIn;
-                $dayInOutArray[$rowNum . 'dayOut'] = $dayOut;
-
-                $rowNum++;
-
-            }
-        }
-
-        return $dayInOutArray;
-
-    }*/
-
-    /*private function _autoGenerateDatesFromNumbers($daysArray, $startdateInSeconds) {
-
-        $dayIncrement = 0;
-        $startDateDayOfWeek = date('w', $startdateInSeconds);
-
-//    $startdateInSeconds = strtotime($_POST['sc-startdate']);
-
-        foreach($daysArray as $key => $day) {
-
-            /*$addStartDay = $day + $startDateDayOfWeek;
-
-            $timesDivisible = floor($addStartDay/ScheduleController::MAX_DAY_OF_WEEK);
-            $calculatedDay = ($timesDivisible * 2);
-
-            if($key == '1dayIn'){
-                $finalDay = '';
-            }
-            else {
-                $newDayInSeconds = $this->_calculateSeconds($day) + $this->_calculateSeconds($newDay) + $startdateInSeconds;
-            }
-
-
-
-            $newDayInSeconds = $this->_calculateSeconds($day) + $startdateInSeconds + $dayIncrement;
-            $dayOfWeek = date('w', $newDayInSeconds);
-
-            //echo 'day of week' . $dayOfWeek .'<br>';
-
-
-
-            if($dayOfWeek == ScheduleController::MAX_DAY_OF_WEEK) {
-                $dayIncrement += (ScheduleController::SECONDS_PER_DAY*2);
-                $newDate = $this->_calculateSeconds($day) + $startdateInSeconds + $dayIncrement;
-            }
-            else if($dayOfWeek == ScheduleController::MIN_DAY_OF_WEEK) {
-                $dayIncrement += ScheduleController::SECONDS_PER_DAY;
-                $newDate = $this->_calculateSeconds($day) + $startdateInSeconds + $dayIncrement;
-            }
-
-
-
-            $dateString = $this->_convertToDateString($newDayInSeconds);
-            $daysArray[$key] = $dateString;
-
-//        var_dump($seconds);
-//        var_dump($dateString);
-
-        }
-        return $daysArray;
-    }*/
 
     private function _calculateSeconds($numOfDays) {
         // days in seconds = 60 seconds * 60 minutes * 24 hours = 86400 seconds

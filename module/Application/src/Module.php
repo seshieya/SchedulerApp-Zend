@@ -7,6 +7,7 @@
 
 namespace Application;
 
+use Application\Controller\IndexController;
 use Application\Controller\LoginController;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -40,6 +41,7 @@ class Module
         $serviceManager = $event->getApplication()->getServiceManager();
         $authManager = $serviceManager->get('Application\Service\AuthManager');
         $viewModel = $event->getViewModel();
+        //send authenticatedUser variable to the layout view layer
         $viewModel->authenticatedUser = $authManager->getIdentity();
     }
 
@@ -65,7 +67,7 @@ class Module
 
         // Execute the access filter on every controller except AuthController
         // (to avoid infinite redirect).
-        if ($controllerName!=LoginController::class &&
+        if ($controllerName!=IndexController::class && $controllerName!=LoginController::class &&
             !$authManager->filterAccess($controllerName, $actionName)) {
 
             // Remember the URL of the page the user tried to access. We will
@@ -80,7 +82,7 @@ class Module
             $redirectUrl = $uri->toString();
 
             // Redirect the user to the "Login" page.
-            return $controller->redirect()->toRoute('home', [],
+            return $controller->redirect()->toRoute('login', [],
                 ['query'=>['redirectUrl'=>$redirectUrl]]);
         }
     }

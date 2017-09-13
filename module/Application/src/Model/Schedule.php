@@ -11,7 +11,7 @@ namespace Application\Model;
 
 class Schedule implements ArrayForDatabase
 {
-    //need a set version number option????
+    //todo Angela need a set version number option????
 
     private $jobNumber;
     private $versionNum;

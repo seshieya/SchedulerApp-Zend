@@ -12,13 +12,6 @@ use Zend\View\Model\ViewModel;
 
 use Zend\Crypt\Password\Bcrypt;
 
-use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
-use Zend\Db\Adapter\Adapter;
-use Zend\Authentication\AuthenticationService;
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-use Zend\Authentication\Result;
-
 use Application\Database\EmployeeTable;
 use Application\Database\LoginTable;
 use Application\Model\Employee;

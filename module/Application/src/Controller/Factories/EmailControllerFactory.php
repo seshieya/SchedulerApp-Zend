@@ -14,6 +14,7 @@ final class EmailControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $db = $container->get('config')['db'];
+        $emailInfo = $container->get('config')['gmail'];
 
         $scheduleTable = new ScheduleTable(
             $db['database'],
@@ -39,6 +40,6 @@ final class EmailControllerFactory implements FactoryInterface
             $db['driver'])
         ;
 
-        return new EmailController($scheduleTable, $scheduleRowTable, $jobTable);
+        return new EmailController($scheduleTable, $scheduleRowTable, $jobTable, $emailInfo);
     }
 }
