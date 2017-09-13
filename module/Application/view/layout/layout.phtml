@@ -49,10 +49,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li class="<?php echo $this->authenticatedUser != null ? '' : 'displaynone'; ?>"><a href="/schedule/create">Create</a></li>
-                <li class="<?php echo $this->authenticatedUser != null ? '' : 'displaynone'; ?>"><a href="/schedule/preview">Preview</a></li>
-                <li class="<?php echo $this->authenticatedUser != null ? '' : 'displaynone'; ?>"><a href="/logout">Logout</a></li>
+                <li class="<?php echo $this->authenticatedUser == null ? '' : 'displaynone'; ?>"><a href="/login">Log in</a></li>
+                <li class="<?php echo $this->authenticatedUser == null ? 'displaynone' : ''; ?>"><a href="/schedule/create">Create</a></li>
+                <li class="<?php echo $this->authenticatedUser == null ? 'displaynone' : ''; ?>"><a href="/schedule/preview">Preview</a></li>
+                <li class="<?php echo $this->authenticatedUser == null ? 'displaynone' : ''; ?>"><a href="/logout">Log out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

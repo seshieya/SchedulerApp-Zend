@@ -48,7 +48,7 @@ return [
             'draft' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/draft',
+                    'route'    => '/schedule/draft',
                     'defaults' => [
                         'controller' => Controller\ScheduleController::class,
                         'action'     => 'draft',
@@ -88,7 +88,7 @@ return [
             'login' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/',
+                    'route'    => '/login',
                     'defaults' => [
                         'controller' => Controller\LoginController::class,
                         'action'     => 'login',

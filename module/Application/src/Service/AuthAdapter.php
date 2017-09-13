@@ -27,20 +27,12 @@ class AuthAdapter implements AdapterInterface
     private $password;
 
     private $dbPassword;
-    
 
-        
+
+
+
     /**
-     * Constructor.
-     */
-    /*public function __construct($employeeTable, $loginTable)
-    {
-        $this->employeeTable = $employeeTable;
-        $this->loginTable = $loginTable;
-    }*/
-    
-    /**
-     * Sets user email.     
+     * Sets username.
      */
     public function setUsername($username)
     {
@@ -64,8 +56,6 @@ class AuthAdapter implements AdapterInterface
     }
 
 
-
-
     /**
      * Performs an authentication attempt.
      */
@@ -77,8 +67,9 @@ class AuthAdapter implements AdapterInterface
         $bcrypt = new Bcrypt();
 
         if($bcrypt->verify($this->password, $passwordHashFromDb)) {
-            // Great! The password hash matches. Return user identity (email) to be
+            // Great! The password hash matches. Return user identity (username) to be
             // saved in session for later use.
+            //todo Angela replace session variables with the below $this->username
             return new Result(
                 Result::SUCCESS,
                 $this->username,
@@ -91,6 +82,8 @@ class AuthAdapter implements AdapterInterface
             null,
             ['Invalid credentials.']);
 
+
+        //todo Angela consider other situations and use other Result constants like the below:
 
         /*// Check the database if there is a user with such email.
         $user = $this->entityManager->getRepository(User::class)
