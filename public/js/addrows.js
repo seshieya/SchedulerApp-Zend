@@ -68,15 +68,15 @@ window.onload = function(){
 	}
 
 
-	//initialize first row in schedule home
+	//initialize first row schedule create page
 	$("#sc-rows-container").append(initializeRow());
 
-	//add rows in schedule home
+	//add rows in schedule create page
 	$("#sc-addrows").click(function() {
 		$('#sc-rows-container').append(initializeRow());
 	});
 
-	//remove rows in schedule home
+	//remove rows in schedule create page
     $("#sc-removerows").click(function() {
         $(".sc-row-entry:last-of-type").remove();
         if(rowNum > 1) {

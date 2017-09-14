@@ -123,7 +123,7 @@ body {
 /* Schedule Preview
 ==========================================*/
 
-#pvw {
+#pvw-schedule {
 	text-align: center;
 	/*border: 1px solid black;*/
 	/*letter size paper is 612px W by 792 px H*/
@@ -134,12 +134,12 @@ body {
 
 }
 
-#pvw h1 {
+#pvw-schedule h1 {
 	text-decoration: underline;
 	margin-bottom: 30px;
 }
 
-#pvw table {
+#pvw-schedule table {
 	text-align: left;
 	margin-left: auto;
 	margin-right: auto;

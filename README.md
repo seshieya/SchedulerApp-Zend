@@ -1,4 +1,5 @@
 # SchedulerApp-Zend (Scheduler Web Application for Trades/Contractors) - IN PROGRESS 
+# Live demo coming soon.
 
 Project is a work in progress therefore code is rough, and not thoroughly commented. It is updated frequently.
 
@@ -14,7 +15,7 @@ My current job involves manually creating work schedules in Microsoft Word. Appl
 - Used Zend Framework's Bcrypt library to encrypt passwords before storing them to the database. Only authenticated users can create schedules.
 - Implemented user authentication and access filtering through creating service classes and event listeners. Non-authenticated user will be redirected to the login page if they visit a page they do not have access to.
 - Integrated option for user to download schedule as PDF file or email to trades/contractors, after schedule has been generated.
-- Developed regular expressions and functions with PHP to generate dates that fall on Monday to Friday (excludes weekends). Dates generation is based on a start date that the user provides.
+- Developed an algorithm to generate dates that fall on Monday to Friday (excludes weekends). Dates generation is based on a start date that the user provides.
 -	Built function to insert or remove more rows of inputs when user clicks add or delete buttons, and send these additional inputs to be stored to a database.
 
 
