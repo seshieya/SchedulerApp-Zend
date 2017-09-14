@@ -122,9 +122,6 @@
 
 
 
-                //var daysInChange = [];
-                //var daysOutChange = [];
-
                 //initiate daysNeededChange as Javascript object:
                 var daysNeededChange = {};
 
@@ -135,28 +132,12 @@
                     if(!document.getElementById("sc-row" + rowId + "-dayIn") || !document.getElementById("sc-row" + rowId + "-dayOut")) {
                         break;
                     }
-                    //daysInChange[document.getElementById("sc-row" + rowId + "-dayIn").id] = document.getElementById("sc-row" + rowId + "-dayIn").value;
-                    //daysOutChange[document.getElementById("sc-row" + rowId + "-dayOut").id] = document.getElementById("sc-row" + rowId + "-dayOut").value;
                     daysNeededChange[document.getElementById("sc-row" + rowId + "-days").id] = document.getElementById("sc-row" + rowId + "-days").value;
                     rowId++;
                 }
 
-                //console.log(daysInChange);
-                //console.log(daysOutChange);
                 console.log(daysNeededChange);
 
-
-                //var selectedDayIn = document.getElementById("sc-row" + rowId + "-dayIn").value;
-                //var selectedDayOut = document.getElementById("sc-row" + rowId + "-dayOut").value;
-
-                /*console.log(selectedDayIn);
-                console.log(selectedDayOut);
-                console.log(selectedDaysNeeded);*/
-
-                /*var $value = $("sc-row1-dayIn").value;
-                $value = "hi";
-
-                console.log($value);*/
 
 
                 //convert daysNeededChange array to JSON:
@@ -165,31 +146,9 @@
                 console.log(daysNeededJson);
 
 
-                // then call a function to change the dates
+                // then call ajax function to change the dates
                 updateDates (selectedElementStartDate, daysNeededJson, rowIdStart);
 
-                /*$.ajax({
-                    url: "/schedule/dates",
-                    type: "post",
-                    datatype: "json",
-                    data: {initialDayIn: selectedDayIn, initialDayOut: selectedDayOut, initialDaysNeeded: selectedDaysNeeded},
-
-                    success: function(updatedDates) {
-                        /!*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];
-                         $("sc-row" + rowId + "-dayOut").value = updatedDates["rowDayOut"];
-
-                         console.log(updatedDates["rowDayIn"]);
-                         console.log(updatedDates["rowDayOut"]);*!/
-
-
-
-                        $("#sc-row" + rowId + "-dayIn").val(updatedDates.finalDayIn);
-                        $("#sc-row" + rowId + "-dayOut").val(updatedDates.finalDayOut);
-
-
-                    }
-
-                });*/
 
             }
         });
@@ -202,21 +161,10 @@
                 data: {selectedStartDate: startDate, followingDaysNeeded: daysNeededInJson, rowId: selectedRowId},
 
                 success: function(updatedDates) {
-                    /*$("sc-row" + rowId + "-dayIn").value = updatedDates["rowDayIn"];
-                    $("sc-row" + rowId + "-dayOut").value = updatedDates["rowDayOut"];
-
-                    console.log(updatedDates["rowDayIn"]);
-                    console.log(updatedDates["rowDayOut"]);*/
-
-                   /* $("#sc-row" + rowId + "-dayIn").val(updatedDates.finalDayIn);
-                    $("#sc-row" + rowId + "-dayOut").val(updatedDates.finalDayOut);*/
 
                    $.each(updatedDates, function(index, element) {
                         $("#" + index).val(element);
                    });
-
-                    /*$("#sc-row" + selectedRowId + "-dayIn").val(updatedDates.(sc-row + selectedRowId + -dayIn));
-                    $("#sc-row" + selectedRowId + "-dayOut").val(updatedDates.finalDayOut);*/
 
 
                 }
@@ -226,104 +174,4 @@
 
 
     </script>
-
-    <!--<form method="post" action="/">
-        <input type="input"
-               name="job"
-               id="job"
-               value='<?php /*echo json_encode($this->job); */?>'
-        />
-        <input type="input"
-               name="rowOther"
-               id="rowOther"
-               value='<?php /*echo json_encode($this->rowOther); */?>'
-        />
-        <input type="input"
-               name="rowDayInDayOut"
-               id="rowDayInDayOut"
-               value='<?php /*echo json_encode($this->rowDayInDayOut); */?>'
-        />
-        <input type="submit" value="Edit" />
-    </form>-->
-
-<!--    <form method="post" action="/save">
-        <input type="hidden"
-               name="job"
-               id="job"
-               value="<?php /*echo json_encode($this->job); */?>"/>
-        <input type="hidden"
-               name="rowOther"
-               id="rowOther"
-               value="<?php /*echo json_encode($this->rowOther); */?>"/>
-        <input type="hidden"
-               name="rowDayInDayOut"
-               id="rowDayInDayOut"
-               value="<?php /*echo json_encode($this->rowDayInDayOut); */?>"/>
-        <input type="submit" value="Save" />
-    </form>-->
-
-
-    <!--<script>
-
-        $(function () {
-            //Read more: http://ssiddique.info/jquery-and-editable-html-table.html#ixzz4noYAlhGX
-            //1. Creating Editable cell in HTML table
-            $("td").dblclick(function () {
-                var OriginalContent = $(this).text();
-                $(this).addClass("cellEditing");
-                $(this).html("<input type='text' value='" + OriginalContent + "' />");
-
-                $(this).children().first().focus();
-
-                $(this).children().first().keypress(function (e) {
-                    if (e.which == 13) {
-                        var newContent = $(this).val();
-                        $(this).parent().text(newContent);
-                        $(this).parent().removeClass("cellEditing");
-                    }
-                });
-
-                $(this).children().first().blur(function () {
-                    $(this).parent().text(OriginalContent);
-                    $(this).parent().removeClass("cellEditing");
-                });
-
-                $(this).find('input').dblclick(function(e){
-                    e.stopPropagation();
-                });
-            });
-
-            //Code for Ajax
-            $(this).children().first().keypress(function (e) {
-                if (e.which == 13) {
-                    var fullContent = $(this).val();
-                    $(this).parent().html(fullContent);
-                    $(this).parent().removeClass("cellEditing");
-                    //Call the server side file to communicate with database.
-                    var URL = '/save';
-                    //alert (URL);
-                    var xmlhttp;
-                    if (window.XMLHttpRequest) {
-                        // code for IE7+, Firefox, Chrome, Opera, Safari
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    else {
-                        // code for IE6, IE5
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                    xmlhttp.onreadystatechange = function () {
-                        // if successfully done it will return status 200
-                        if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-                            alert('Can not update comment. Contact admin')
-                        }
-
-                    };
-                    xmlhttp.open("POST", URL, true);
-                    xmlhttp.send();
-                }
-            });
-
-        });
-    </script>-->
-
 
