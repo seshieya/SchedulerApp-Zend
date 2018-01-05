@@ -22,3 +22,4 @@ My current job involves manually creating work schedules in Microsoft Word. Appl
 ## Other main features for the project that I have not yet implemented:
  
 - Upon emailing a schedule to a trade, there is a confirmation button in the email. If the trade clicks on the button, it will open up a browser window and redirect the trade to the Scheduler app, where it will trigger the server to send an email to the employee that created the schedule. The email will indicate that the trade has viewed and confirmed that they will be attending as per the date listed on the schedule.
+- Re-doing the front-end of this app using React
