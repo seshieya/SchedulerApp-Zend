@@ -103,6 +103,14 @@
     </form>
 
     <script>
+
+        //prevent submit from happening when "enter" key is pressed
+        $("input").on("keydown", function(event) {
+            if(event.which === 13) {
+                event.preventDefault();
+            }
+        });
+
         //recalculate dates in schedule draft when "enter" key is pressed
         $("input[id$='-days']").on("keydown", function(event){
             console.log(event.which);
@@ -171,6 +179,79 @@
 
             });
         }
+
+
+
+
+
+        //recalculate dates in schedule draft when "enter" key is pressed, for the actual date
+        $("input[id$='-dayIn']").on("keydown", function(event){
+            console.log(event.which);
+            if(event.which === 13) {
+                event.preventDefault();
+
+                var dayInId = this.id;
+                var dayOutId = dayInId.replace(/dayIn/g, 'dayOut');
+
+                console.log(dayInId, "day in id");
+                console.log(dayOutId, "day out id");
+
+                var dayInValue = this.value;
+                var dayOutValue = document.getElementById(dayOutId).value;
+
+                console.log(dayInValue, "Day in value");
+                console.log(dayOutValue, "Day out value");
+
+
+
+
+
+
+
+
+                var rowId = dayInId.replace(/[^\d]/g, '');
+                console.log(rowId, "rowId");
+                var rowIdStart = rowId;
+
+                console.log(rowId);
+                //console.log($("input[type='text']").attr("id"));
+                //console.log(document.getElementById("sc-row1-dayIn").id);
+                //console.log(document.getElementById("sc-row1-dayIn").value);
+
+
+
+                //initiate daysNeededChange as Javascript object:
+                var daysNeededChange = {};
+
+                var selectedElementStartDate = document.getElementById("sc-row" + rowId + "-dayIn").value;
+
+                //get all days needed that are after the current selected element:
+                while(true) {
+                    if(!document.getElementById("sc-row" + rowId + "-dayIn") || !document.getElementById("sc-row" + rowId + "-dayOut")) {
+                        break;
+                    }
+                    daysNeededChange[document.getElementById("sc-row" + rowId + "-days").id] = document.getElementById("sc-row" + rowId + "-days").value;
+                    rowId++;
+                }
+
+                console.log(daysNeededChange);
+
+
+
+                //convert daysNeededChange array to JSON:
+                var daysNeededJson = JSON.stringify(daysNeededChange);
+
+                console.log(daysNeededJson);
+
+
+                // then call ajax function to change the dates
+                updateDates (selectedElementStartDate, daysNeededJson, rowIdStart);
+
+
+            }
+        });
+
+
 
 
     </script>

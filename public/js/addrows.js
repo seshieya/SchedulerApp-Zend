@@ -40,7 +40,7 @@ window.onload = function(){
                         placeholder="" />\
               </div>\
               <div class="col-md-4">\
-                <label for="sc-row' + rowNum + '-days">Number of Days Needed:</label>\
+                <label for="sc-row' + rowNum + '-days">Business Days Needed:</label>\
                 <input  type="text"\
                         name="sc-row' + rowNum + '-days"\
                         id="sc-row' + rowNum + '-days"\
